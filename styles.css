@@ -96,11 +96,17 @@ body {
     flex: 0 0 50%;
     max-width: 50%;
   }
+  .navbar-info {
+    display: none;
+  }
 }
 
 @media (max-width: 600px) {
   .col-sm-3 {
     flex: 0 0 100%;
     max-width: 100%;
+  }
+  .navbar-info {
+    display: none;
   }
 }
