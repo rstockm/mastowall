@@ -1,0 +1,81 @@
+/* Add some custom CSS for the cards */
+.card {
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Position the avatar and username in the top left of the card */
+.card-avatar {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.card-username {
+  position: absolute;
+  top: 10px;
+  left: 70px;
+}
+
+/* Add padding to the card body to prevent overlay with avatar and username */
+.card-body {
+  padding-top: 40px;
+  padding-bottom: 10px;
+}
+
+/* Style the media image */
+.card-img-top {
+  width: 100%;
+  height: auto;
+}
+
+.card-title {
+  font-weight: normal;
+}
+
+.card-text {
+  margin-bottom: 1px !important;
+}
+
+/* Custom navbar styles */
+.navbar {
+  height: 50px;  /* reduce the height of the navbar */
+  background-color: rgb(227, 6, 19);
+  margin-bottom: 10px !important;
+  top: -10px !important;
+}
+
+.navbar-brand {
+  color: #dddddd !important;  /* change the text color */
+  margin: 0 auto;  /* center the brand name */
+}
+
+.hashtag {
+  margin-right: 10px;  /* add space between the hashtags */
+}
+
+/* Set the background color of the body */
+body {
+  background-color: #aaaaaa;
+  margin-top: 00px !important;
+  margin-left: 20px !important;
+  margin-right: 20px !important;
+}
+
+@media (max-width: 1000px) {
+  .col-sm-3 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+@media (max-width: 600px) {
+  .col-sm-3 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
