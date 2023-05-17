@@ -26,17 +26,43 @@ const timeAgo = function(date) {
     return Math.floor(seconds) + " seconds ago";
 }
 
+// Function to get a parameter by name from URL
+function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+}
+
+// Get hashtags from URL parameters
+let hashtags = getUrlParameter('hashtags');
+
+// Split the hashtags string into an array
+let hashtagsArray = hashtags.split(',');
+
+
 // Function to fetch posts for a given hashtag
 const getPosts = function(hashtag) {
     return $.get(`https://openbiblio.social/api/v1/timelines/tag/${hashtag}`);
 }
 
+
 // Function to fetch and display posts
 const fetchAndDisplayPosts = function() {
-    // Fetch posts for each hashtag
-    $.when(getPosts('bibliocon23'), getPosts('111bibliocon'), getPosts('bibliocon')).then(function(bibliocon23Posts, bibliocon111Posts, biblioconPosts) {
-        let allPosts = bibliocon23Posts[0].concat(bibliocon111Posts[0], biblioconPosts[0]);
+        // Fetch posts for each hashtag
+        $.when(...hashtagsArray.map(hashtag => getPosts(hashtag))).then(function(...hashtagPosts) {
+            let allPosts;
 
+            // Check if there are multiple hashtags or just one
+            if (hashtagsArray.length > 1) {
+                // If there are multiple hashtags, `hashtagPosts` is an array of arrays
+                // We use Array.prototype.flat() to combine them into one array
+                allPosts = hashtagPosts.map(postData => postData[0]).flat();
+            } else {
+                // If there's only one hashtag, `hashtagPosts` is a single array
+                allPosts = hashtagPosts[0];
+            }
+    
         // Sort the posts by date/time
         allPosts.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
 
