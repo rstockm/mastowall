@@ -9,10 +9,8 @@
 
 <body>
     <nav class="navbar navbar-light d-flex">
-        <span class="navbar-brand mb-0 h1">
-            <span class="hashtag">#bibliocon23</span>
-            <span class="hashtag">#111bibliocon</span>
-            <span class="hashtag">#bibliocon</span>
+        <span class="navbar-brand mb-0 h1" id="hashtag-container">
+            <!-- hashtags will be inserted here -->
         </span>
         <span class="navbar-info mb-0 h3">
           <span class="hashtag">Mastowall V0.1 - written by ChatGPT4 - Prompting: Ralf Stockmann (rstockm)</span>
@@ -23,5 +21,10 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js"></script>
     <script src="script.js"></script>
+    <script>
+        // insert hashtags into the navbar
+        let hashtagContainer = document.getElementById('hashtag-container');
+        hashtagContainer.innerHTML = hashtagsArray.map(hashtag => `<span class="hashtag">#${hashtag}</span>`).join(' &nbsp; ');
+    </script>
 </body>
 </html>
