@@ -68,8 +68,19 @@
   margin: 0 auto;  /* center the brand name */
 }
 
+.navbar-info {
+  color: #ffbbbb !important;  /* change the text color */
+  margin: 0 auto;  /* center the brand name */
+  font-size: 0.8em;
+}
+
 .hashtag {
   margin-right: 10px;  /* add space between the hashtags */
+}
+
+.col-sm-3 {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
 }
 
 /* Set the background color of the body */
