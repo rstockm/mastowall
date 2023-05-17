@@ -51,6 +51,10 @@
   line-height: 0 !important;
 }
 
+.hashtag {
+  margin-right: 0px !important; 
+  }
+
 /* Custom navbar styles */
 .navbar {
   height: 50px;  /* reduce the height of the navbar */
