@@ -41,6 +41,16 @@
   margin-bottom: 1px !important;
 }
 
+.card {
+  font-size: 0.9em;  /* adjust this value to get the desired text size */
+}
+
+/* Remove indent of URLs */
+.invisible {
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+
 /* Custom navbar styles */
 .navbar {
   height: 50px;  /* reduce the height of the navbar */
