@@ -11,7 +11,7 @@ The layout is responsive and mobile-friendly, thanks to the use of [Bootstrap](h
 ## Features
 
 - Displays posts from multiple hashtags
-- Fetches new posts in real-time
+- Fetches new posts every 10 seconds and updates without reloading the page
 - Shows post content, author, author avatar, relative time, and images
 - Links to original post and author profile
 - Responsive design that adjusts to screen size
