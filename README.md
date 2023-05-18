@@ -2,6 +2,11 @@
 
 Mastowall is a social wall application that displays posts from the [Mastodon](https://joinmastodon.org/) social network based on specified hashtags. It has been updated with new features to improve its usability and appearance.
 
+<img width="1520" alt="image" src="https://github.com/rstockm/mastowall/assets/3195116/d26fe65b-159b-4098-ad5b-bc551049b16d">
+
+<img width="1188" alt="image" src="https://github.com/rstockm/mastowall/assets/3195116/98d7e33f-49a7-4f89-81d3-8762942440fa">
+
+
 ## Features
 
 - **Display Posts:** The app fetches and displays posts from Mastodon based on the hashtags provided in the URL. If no hashtags are provided, it presents a form to enter up to three hashtags.
