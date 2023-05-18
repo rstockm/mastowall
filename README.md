@@ -4,7 +4,7 @@ Mastowall is a social wall application that displays posts from the [Mastodon](h
 
 <img width="1520" alt="image" src="https://github.com/rstockm/mastowall/assets/3195116/d26fe65b-159b-4098-ad5b-bc551049b16d">
 
-Try it live: [Mastowall for the BiblioCon conference](http://wp1187670.server-he.de/mastowall/?hashtags=111bibliocon,bibliocon,bibliocon23&server=https://openbiblio.social)
+Try it live: [Mastowall for the BiblioCon conference]([https://rstockm.github.io/mastowall/?hashtags=111bibliocon,bibliocon,bibliocon23&server=https://openbiblio.social))
 
 Use your own hashtags and server:
 
