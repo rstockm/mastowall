@@ -26,6 +26,21 @@ const timeAgo = function(date) {
     return Math.floor(seconds) + " seconds ago";
 }
 
+// Function to update times
+const updateTimes = function() {
+    // Find each timestamp element in the DOM
+    $('.card-text a').each(function() {
+        // Get the original date of the post
+        let date = new Date($(this).attr('data-time'));
+
+        // Calculate the new relative time
+        let newTimeAgo = timeAgo(date);
+
+        // Update the timestamp with the new relative time
+        $(this).text(newTimeAgo);
+    });
+};
+
 // Function to get a parameter by name from URL
 function getUrlParameter(name) {
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -43,12 +58,13 @@ let hashtagsArray = hashtags.split(',');
 
 // Function to fetch posts for a given hashtag
 const getPosts = function(hashtag) {
-    return $.get(`https://openbiblio.social/api/v1/timelines/tag/${hashtag}`);
+    return $.get(`https://chaos.social/api/v1/timelines/tag/${hashtag}`);
 }
 
 
 // Function to fetch and display posts
 const fetchAndDisplayPosts = function() {
+        
         // Fetch posts for each hashtag
         $.when(...hashtagsArray.map(hashtag => getPosts(hashtag))).then(function(...hashtagPosts) {
             let allPosts;
@@ -82,7 +98,7 @@ const fetchAndDisplayPosts = function() {
                         </div>
                         <p class="card-text">${post.content}</p>
                         ${post.media_attachments.length > 0 ? `<img src="${post.media_attachments[0].preview_url}" class="card-img-top mb-2" alt="Image">` : ''}
-                        <p class="card-text text-right"><a href="${post.url}" target="_blank">${timeAgo(new Date(post.created_at))}</a></p>
+                        <p class="card-text text-right"><a href="${post.url}" target="_blank" data-time="${post.created_at}">${timeAgo(new Date(post.created_at))}</a></p>
                     </div>
                 </div>
             `;
@@ -108,9 +124,49 @@ $(document).ready(function() {
         percentPosition: true
     });
 
-    // Fetch posts for each hashtag on page load
-    fetchAndDisplayPosts();
+    // Check if hashtags are provided
+    if (hashtagsArray[0] !== '') {
+        // Fetch posts for each hashtag on page load
+        fetchAndDisplayPosts();
 
-    // Fetch posts for each hashtag every 10 seconds
-    setInterval(fetchAndDisplayPosts, 10000);
+        // Fetch posts for each hashtag every 10 seconds
+        setInterval(fetchAndDisplayPosts, 10000);
+    } else {
+        // Show the zero state and hide the app content
+        $('#zero-state').removeClass('d-none');
+        $('#app-content').addClass('d-none');
+    }
+
+    // Update the navbar info with the provided hashtags
+    $('#hashtag-display').text(`${hashtagsArray.map(hashtag => `#${hashtag}`).join(' ')}`);
+
+    // Handle the form submit event
+    $('#hashtag-form').on('submit', function(e) {
+        // Prevent the default form submission
+        e.preventDefault();
+
+        // Get the entered hashtags
+        let hashtags = [
+            $('#hashtag1').val(),
+            $('#hashtag2').val(),
+            $('#hashtag3').val()
+        ];
+
+        // Filter out any empty strings
+        hashtags = hashtags.filter(function(hashtag) {
+            return hashtag !== '';
+        });
+
+        // Create a new URL with the entered hashtags
+        let newUrl = window.location.origin + window.location.pathname + `?hashtags=${hashtags.join(',')}`;
+
+        // Reload the page with the new URL
+        window.location.href = newUrl;
+    });
+
+    // Update the times once when the page loads
+    updateTimes();
+
+    // Then update every 60 seconds
+    setInterval(updateTimes, 60000);
 });
