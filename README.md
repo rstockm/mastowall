@@ -1,23 +1,49 @@
-# Mastodon Wall
+# Mastowall 0.2
 
-Mastodon Wall is a simple web application that fetches and displays posts from multiple hashtags on Mastodon, an open-source decentralized social network. The project aims to provide an easily accessible public display of Mastodon posts for event organizers, community managers, and users who want to keep up with specific topics on the platform.
-
-## Technology
-
-Mastodon Wall is built using HTML, CSS, and JavaScript with jQuery for making API requests and handling dynamic content. The project uses the [Mastodon API](https://docs.joinmastodon.org/client/public/) to fetch posts from specified hashtags.
-
-The layout is responsive and mobile-friendly, thanks to the use of [Bootstrap](https://getbootstrap.com/), a popular CSS framework, and [Masonry](https://masonry.desandro.com/), a grid layout library.
+Mastowall is a social wall application that displays posts from the Mastodon social network based on specified hashtags. It has been updated with new features to improve its usability and appearance.
 
 ## Features
 
-- Displays posts from multiple hashtags
-- Fetches new posts every 10 seconds and updates without reloading the page
-- Shows post content, author, author avatar, relative time, and images
-- Links to original post and author profile
-- Responsive design that adjusts to screen size
+- **Display Posts:** The app fetches and displays posts from Mastodon based on the hashtags provided in the URL. If no hashtags are provided, it presents a form to enter up to three hashtags.
 
-## Installation
+- **Real-Time Updates:** Mastowall updates the posts every 10 seconds, ensuring that the content displayed is always current.
 
-1. Clone the repository: `git clone https://github.com/rstockm/mastowall.git`
-2. Open `index.html` in your web browser.
-3. If you want to change the hashtags, replace the `#bibliocon23`, `#111bibliocon`, and `#bibliocon` in the HTML file with your desired hashtags.
+- **Relative Timestamps:** The timestamps of the posts are displayed relative to the current time, and are updated every minute to reflect the passing time.
+
+- **Masonry Grid Layout:** The posts are displayed in a masonry grid layout for a visually pleasing experience. 
+
+- **Responsive Design:** The layout adjusts according to the screen size for better readability on different devices.
+
+- **Navbar Hashtag Navigation:** Clicking on the hashtags in the navbar takes you to the form screen, allowing you to change the existing hashtags easily.
+
+- **Styled Form Screen:** The form screen has been styled for a better user experience, with narrower input fields and centered content.
+
+- **Footer with GitHub Link:** A footer has been added with a link to the [GitHub repository](https://github.com/rstockm/mastowall).
+
+## Technology Stack
+
+Mastowall is built using the following technologies:
+
+- **HTML, CSS, and JavaScript**: For structuring, styling, and functionality.
+
+- **jQuery**: A fast, small, and feature-rich JavaScript library.
+
+- **Masonry**: A JavaScript grid layout library.
+
+- **Bootstrap**: A popular CSS framework for responsive, mobile-first front-end web development.
+
+## Usage
+
+1. Load the application in a web browser. If no hashtags are specified in the URL, you will be presented with a form to enter up to three hashtags.
+
+2. After entering your hashtags and clicking 'Reload', the application will fetch and display posts from Mastodon that include those hashtags.
+
+3. The displayed posts will update every 10 seconds. The relative timestamps will also update every minute.
+
+4. To change the hashtags, click on them in the navbar to go back to the form screen.
+
+## Sharing via URL
+
+Mastowall supports URL parameters to easily share specific hashtag configurations. Simply append the desired hashtags to the URL following this format: `?hashtags=hashtag1,hashtag2,hashtag3`
+
+Enjoy using Mastowall 0.2!
