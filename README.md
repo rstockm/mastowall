@@ -43,3 +43,12 @@ Mastowall is built using the following technologies:
 Mastowall supports URL parameters to easily share specific hashtag configurations. Simply append the desired hashtags to the URL following this format: `?hashtags=hashtag1,hashtag2,hashtag3`
 
 Enjoy using Mastowall 0.2!
+
+## AI-Guided Development: A Proof of Concept
+
+Mastowall 0.2 serves as an example of how artificial intelligence can aid and accelerate the software development process. The development of this version of the app was guided by OpenAI's GPT-4, a large language model.
+
+In this process, the human developer posed problems, asked questions, and described the desired features and functionalities of the application. GPT-4 then provided solutions, answered queries, generated code snippets, and suggested optimal ways to implement these features.
+
+The AI model proved particularly helpful in troubleshooting and debugging, offering insights into why certain components of the application were not behaving as expected and suggesting fixes.
+
