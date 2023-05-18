@@ -61,9 +61,8 @@ let server = getUrlParameter('server') || 'https://mastodon.social';
 
 // Function to fetch posts for a given hashtag
 const getPosts = function(hashtag) {
-    return $.get(`${server}/api/v1/timelines/tag/${hashtag}`);
+    return $.get(`${server}/api/v1/timelines/tag/${hashtag}?limit=20`);
 }
-
 
 
 // Function to fetch and display posts
@@ -128,6 +127,11 @@ $(document).ready(function() {
         percentPosition: true
     });
 
+    // Re-arrange Masonry layout every 30 seconds
+    setInterval(function() {
+        $('.masonry-grid').masonry('layout');
+    }, 10000);
+
     // Event listener for clicking on the hashtags
     $('#hashtag-display').on('click', function() {
         // Hide the main app content
@@ -161,29 +165,6 @@ $(document).ready(function() {
     // Update the navbar info with the provided hashtags
     $('#hashtag-display').text(`${hashtagsArray.map(hashtag => `#${hashtag}`).join(' ')}`);
 
-    // Handle the form submit event
-    $('#hashtag-form').on('submit', function(e) {
-        // Prevent the default form submission
-        e.preventDefault();
-
-        // Get the entered hashtags
-        let hashtags = [
-            $('#hashtag1').val(),
-            $('#hashtag2').val(),
-            $('#hashtag3').val()
-        ];
-
-        // Filter out any empty strings
-        hashtags = hashtags.filter(function(hashtag) {
-            return hashtag !== '';
-        });
-
-        // Create a new URL with the entered hashtags
-        let newUrl = window.location.origin + window.location.pathname + `?hashtags=${hashtags.join(',')}`;
-
-        // Reload the page with the new URL
-        window.location.href = newUrl;
-    });
 
     // Handle the form submit event
     $('#hashtag-form').on('submit', function(e) {
@@ -197,13 +178,19 @@ $(document).ready(function() {
             $('#hashtag3').val()
         ];
 
-        // Filter out any empty strings
+        // Filter out any empty strings and validate hashtag format
         hashtags = hashtags.filter(function(hashtag) {
-            return hashtag !== '';
+            return hashtag !== '' && /^[\w]+$/.test(hashtag);
         });
 
         // Get the entered server URL
         let serverUrl = $('#serverUrl').val();
+
+        // Validate server URL format
+        if (!/^https:\/\/[\w.\-]+\/?$/.test(serverUrl)) {
+            alert('Invalid server URL.');
+            return;
+        }
 
         // Create a new URL with the entered hashtags and server URL
         let newUrl = window.location.origin + window.location.pathname + `?hashtags=${hashtags.join(',')}&server=${serverUrl}`;
