@@ -61,17 +61,20 @@
   background-color: rgb(227, 6, 19);
   margin-bottom: 10px !important;
   top: -10px !important;
+  padding-top: 14px !important;
 }
 
 .navbar-brand {
-  color: #dddddd !important;  /* change the text color */
+  color: #ffbbbb !important;  /* change the text color */
   margin: 0 auto;  /* center the brand name */
+  font-size: 0.9em;
 }
 
 .navbar-info {
-  color: #ffbbbb !important;  /* change the text color */
+  color: #dddddd !important;  /* change the text color */
   margin: 0 auto;  /* center the brand name */
-  font-size: 0.8em;
+  font-size: 1.2em;
+  display: block !important;
 }
 
 .hashtag {
@@ -96,7 +99,7 @@ body {
     flex: 0 0 50%;
     max-width: 50%;
   }
-  .navbar-info {
+  .navbar-brand {
     display: none;
   }
 }
@@ -106,7 +109,11 @@ body {
     flex: 0 0 100%;
     max-width: 100%;
   }
-  .navbar-info {
+  .navbar-brand {
     display: none;
   }
 }
+
+.container {
+  max-width: 2000px !important;
+  }
