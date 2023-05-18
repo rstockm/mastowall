@@ -1,30 +1,47 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Mastodon Wall</title>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mastowall 0.2</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-    <nav class="navbar navbar-light d-flex">
-        <span class="navbar-brand mb-0 h1" id="hashtag-container">
-            <!-- hashtags will be inserted here -->
-        </span>
-        <span class="navbar-info mb-0 h3">
-          <span class="hashtag">Mastowall V0.1 - written by ChatGPT4 - Prompting: Ralf Stockmann (rstockm)</span>
-        </span>
+    <nav class="navbar navbar-light">
+        <a class="navbar-brand" href="#">Mastowall 0.2 - written by ChatGPT4 - Prompting: Ralf Stockmann (rstockm)</a>
+        <span class="navbar-info d-none d-md-block" id="hashtag-display"></span>
     </nav>
-    <div id="wall" class="row masonry-grid"></div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js"></script>
+    <div id="zero-state" class="d-none">
+        <div class="container py-5">
+            <h2>Welcome to the Bibliocon Social Wall</h2>
+            <p>Please enter up to three hashtags to load posts:</p>
+            <form id="hashtag-form">
+              <div class="form-group">
+                  <label for="hashtag1">Hashtag 1:</label>
+                  <input type="text" class="form-control" id="hashtag1" placeholder="Enter a hashtag">
+              </div>
+              <div class="form-group">
+                  <label for="hashtag2">Hashtag 2:</label>
+                  <input type="text" class="form-control" id="hashtag2" placeholder="Enter a hashtag">
+              </div>
+              <div class="form-group">
+                  <label for="hashtag3">Hashtag 3:</label>
+                  <input type="text" class="form-control" id="hashtag3" placeholder="Enter a hashtag">
+              </div>
+              <button type="submit" class="btn btn-primary">Reload</button>
+            </form>
+          
+        </div>
+    </div>
+
+    <div id="app-content" class="container">
+        <div class="row masonry-grid" id="wall"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
     <script src="script.js"></script>
-    <script>
-        // insert hashtags into the navbar
-        let hashtagContainer = document.getElementById('hashtag-container');
-        hashtagContainer.innerHTML = hashtagsArray.map(hashtag => `<span class="hashtag">#${hashtag}</span>`).join(' &nbsp; ');
-    </script>
 </body>
 </html>
