@@ -56,10 +56,14 @@ let hashtags = getUrlParameter('hashtags');
 let hashtagsArray = hashtags.split(',');
 
 
+// Get server from URL parameters or use default
+let server = getUrlParameter('server') || 'https://mastodon.social';
+
 // Function to fetch posts for a given hashtag
 const getPosts = function(hashtag) {
-    return $.get(`https://chaos.social/api/v1/timelines/tag/${hashtag}`);
+    return $.get(`${server}/api/v1/timelines/tag/${hashtag}`);
 }
+
 
 
 // Function to fetch and display posts
@@ -124,6 +128,23 @@ $(document).ready(function() {
         percentPosition: true
     });
 
+    // Event listener for clicking on the hashtags
+    $('#hashtag-display').on('click', function() {
+        // Hide the main app content
+        $('#app-content').addClass('d-none');
+
+        // Show the form screen
+        $('#zero-state').removeClass('d-none');
+
+        // Get the current hashtags
+        let currentHashtags = $(this).text().split(' ');
+
+        // Pre-fill the form fields with the current hashtags
+        for (let i = 0; i < currentHashtags.length; i++) {
+            $(`#hashtag${i+1}`).val(currentHashtags[i].substring(1)); // Remove the leading '#'
+        }
+    });
+
     // Check if hashtags are provided
     if (hashtagsArray[0] !== '') {
         // Fetch posts for each hashtag on page load
@@ -163,6 +184,34 @@ $(document).ready(function() {
         // Reload the page with the new URL
         window.location.href = newUrl;
     });
+
+    // Handle the form submit event
+    $('#hashtag-form').on('submit', function(e) {
+        // Prevent the default form submission
+        e.preventDefault();
+
+        // Get the entered hashtags
+        let hashtags = [
+            $('#hashtag1').val(),
+            $('#hashtag2').val(),
+            $('#hashtag3').val()
+        ];
+
+        // Filter out any empty strings
+        hashtags = hashtags.filter(function(hashtag) {
+            return hashtag !== '';
+        });
+
+        // Get the entered server URL
+        let serverUrl = $('#serverUrl').val();
+
+        // Create a new URL with the entered hashtags and server URL
+        let newUrl = window.location.origin + window.location.pathname + `?hashtags=${hashtags.join(',')}&server=${serverUrl}`;
+
+        // Reload the page with the new URL
+        window.location.href = newUrl;
+    });
+
 
     // Update the times once when the page loads
     updateTimes();
