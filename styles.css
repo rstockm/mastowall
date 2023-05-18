@@ -88,7 +88,7 @@
 
 /* Set the background color of the body */
 body {
-  background-color: #aaaaaa;
+  background-color: #cccccc;
   margin-top: 00px !important;
   margin-left: 20px !important;
   margin-right: 20px !important;
@@ -117,3 +117,17 @@ body {
 .container {
   max-width: 2000px !important;
   }
+
+.footer {
+    background-color: rgb(200, 200, 200);
+    color: #f2f2f2;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding-top: 2px !important; /* reduce padding-top to half */
+    padding-bottom: 2px !important; /* reduce padding-bottom to half */
+    font-size: 0.9em;
+}
+  }
+  
