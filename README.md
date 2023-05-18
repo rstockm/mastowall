@@ -16,10 +16,6 @@ Mastowall is a social wall application that displays posts from the Mastodon soc
 
 - **Navbar Hashtag Navigation:** Clicking on the hashtags in the navbar takes you to the form screen, allowing you to change the existing hashtags easily.
 
-- **Styled Form Screen:** The form screen has been styled for a better user experience, with narrower input fields and centered content.
-
-- **Footer with GitHub Link:** A footer has been added with a link to the [GitHub repository](https://github.com/rstockm/mastowall).
-
 ## Technology Stack
 
 Mastowall is built using the following technologies:
