@@ -1,10 +1,12 @@
 # Mastowall 0.2
 
-Mastowall is a social wall application that displays posts from the Mastodon social network based on specified hashtags. It has been updated with new features to improve its usability and appearance.
+Mastowall is a social wall application that displays posts from the [Mastodon](https://joinmastodon.org/) social network based on specified hashtags. It has been updated with new features to improve its usability and appearance.
 
 ## Features
 
 - **Display Posts:** The app fetches and displays posts from Mastodon based on the hashtags provided in the URL. If no hashtags are provided, it presents a form to enter up to three hashtags.
+
+- **Custom Mastodon Server:** Allows users to specify a Mastodon server URL from which to fetch posts.
 
 - **Real-Time Updates:** Mastowall updates the posts every 10 seconds, ensuring that the content displayed is always current.
 
@@ -22,17 +24,17 @@ Mastowall is built using the following technologies:
 
 - **HTML, CSS, and JavaScript**: For structuring, styling, and functionality.
 
-- **jQuery**: A fast, small, and feature-rich JavaScript library.
+- **[jQuery](https://jquery.com/)**: A fast, small, and feature-rich JavaScript library.
 
-- **Masonry**: A JavaScript grid layout library.
+- **[Masonry](https://masonry.desandro.com/)**: A JavaScript grid layout library.
 
-- **Bootstrap**: A popular CSS framework for responsive, mobile-first front-end web development.
+- **[Bootstrap](https://getbootstrap.com/)**: A popular CSS framework for responsive, mobile-first front-end web development.
 
 ## Usage
 
-1. Load the application in a web browser. If no hashtags are specified in the URL, you will be presented with a form to enter up to three hashtags.
+1. Load the application in a web browser. If no hashtags are specified in the URL, you will be presented with a form to enter up to three hashtags and a server URL.
 
-2. After entering your hashtags and clicking 'Reload', the application will fetch and display posts from Mastodon that include those hashtags.
+2. After entering your hashtags and clicking 'Reload', the application will fetch and display posts from the specified Mastodon server that include those hashtags.
 
 3. The displayed posts will update every 10 seconds. The relative timestamps will also update every minute.
 
@@ -40,7 +42,7 @@ Mastowall is built using the following technologies:
 
 ## Sharing via URL
 
-Mastowall supports URL parameters to easily share specific hashtag configurations. Simply append the desired hashtags to the URL following this format: `?hashtags=hashtag1,hashtag2,hashtag3`
+Mastowall supports URL parameters to easily share specific hashtag configurations and the Mastodon server. Simply append the desired hashtags and the server URL to the URL following this format: `?hashtags=hashtag1,hashtag2,hashtag3&server=serverUrl`
 
 Enjoy using Mastowall 0.2!
 
@@ -50,5 +52,4 @@ Mastowall 0.2 serves as an example of how artificial intelligence can aid and ac
 
 In this process, the human developer posed problems, asked questions, and described the desired features and functionalities of the application. GPT-4 then provided solutions, answered queries, generated code snippets, and suggested optimal ways to implement these features.
 
-The AI model proved particularly helpful in troubleshooting and debugging, offering insights into why certain components of the application were not behaving as expected and suggesting fixes.
-
+Every single line of code was written by ChatGPT4.
