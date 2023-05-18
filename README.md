@@ -62,3 +62,4 @@ Mastowall 0.2 serves as an example of how artificial intelligence can aid and ac
 In this process, the human developer posed problems, asked questions, and described the desired features and functionalities of the application. GPT-4 then provided solutions, answered queries, generated code snippets, and suggested optimal ways to implement these features.
 
 Every single line of code was written by ChatGPT4.
+Including this README.
