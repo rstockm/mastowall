@@ -147,6 +147,9 @@ $(document).ready(function() {
         for (let i = 0; i < currentHashtags.length; i++) {
             $(`#hashtag${i+1}`).val(currentHashtags[i].substring(1)); // Remove the leading '#'
         }
+        
+        // Pre-fill the server field with the current server
+        $('#serverUrl').val(server);
     });
 
     // Check if hashtags are provided
