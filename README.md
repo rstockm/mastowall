@@ -66,7 +66,7 @@ Enjoy using Mastowall 0.2!
 
 ## AI-Guided Development: A Proof of Concept
 
-Mastowall 0.2 serves as an example of how artificial intelligence can aid and accelerate the software development process. The development of this version of the app was guided by OpenAI's GPT-4, a large language model.
+Mastowall may serve as an example of how artificial intelligence can aid and accelerate the software development process. The development of this version of the app was guided by OpenAI's GPT-4, a large language model.
 
 In this process, the human developer posed problems, asked questions, and described the desired features and functionalities of the application. GPT-4 then provided solutions, answered queries, generated code snippets, and suggested optimal ways to implement these features.
 
