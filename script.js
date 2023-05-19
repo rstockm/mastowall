@@ -1,5 +1,7 @@
+// The existingPosts array is used to track already displayed posts
 let existingPosts = [];
 
+// getUrlParameter helps to fetch URL parameters
 function getUrlParameter(name) {
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
     var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
@@ -7,8 +9,12 @@ function getUrlParameter(name) {
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 }
 
+// secondsAgo calculates how many seconds have passed since the provided date
 const secondsAgo = date => Math.floor((new Date() - date) / 1000);
+
+// timeAgo formats the time elapsed in a human readable format
 const timeAgo = function(seconds) {
+    // An array of intervals for years, months, days, hours, and minutes.
     const intervals = [
         { limit: 31536000, text: 'years' },
         { limit: 2592000, text: 'months' },
@@ -17,6 +23,7 @@ const timeAgo = function(seconds) {
         { limit: 60, text: 'minutes' }
     ];
 
+    // Loop through the intervals to find which one is the best fit.
     for (let interval of intervals) {
         if (seconds >= interval.limit) {
             return Math.floor(seconds / interval.limit) + ` ${interval.text} ago`;
@@ -25,16 +32,22 @@ const timeAgo = function(seconds) {
     return Math.floor(seconds) + " seconds ago";
 };
 
+let includeReplies;
+
+// fetchConfig fetches the configuration from the config.json file
 const fetchConfig = async function() {
     try {
         const config = await $.getJSON('config.json');
         $('#navbar-brand').text(config.navbarBrandText);
+        $('.navbar').css('background-color', config.navbarColor);
+        includeReplies = config.includeReplies;
         return config.defaultServerUrl;
     } catch (error) {
         console.error("Error loading config.json:", error);
     }
 }
 
+// fetchPosts fetches posts from the server using the given hashtag
 const fetchPosts = async function(serverUrl, hashtag) {
     try {
         const posts = await $.get(`${serverUrl}/api/v1/timelines/tag/${hashtag}?limit=20`);
@@ -44,6 +57,7 @@ const fetchPosts = async function(serverUrl, hashtag) {
     }
 };
 
+// updateTimesOnPage updates the time information displayed for each post
 const updateTimesOnPage = function() {
     $('.card-text a').each(function() {
         const date = new Date($(this).attr('data-time'));
@@ -52,8 +66,9 @@ const updateTimesOnPage = function() {
     });
 };
 
+// displayPost creates and displays a post
 const displayPost = function(post) {
-    if (existingPosts.includes(post.id) || post.in_reply_to_id !== null) return;
+    if (existingPosts.includes(post.id) || (!includeReplies && post.in_reply_to_id !== null)) return;
 
     existingPosts.push(post.id);
 
@@ -77,6 +92,7 @@ const displayPost = function(post) {
     $('.masonry-grid').masonry('prepended', $card);
 };
 
+// updateWall displays all posts
 const updateWall = function(posts) {
     if (!posts || posts.length === 0) return;
 
@@ -84,10 +100,12 @@ const updateWall = function(posts) {
     posts.forEach(post => displayPost(post));
 };
 
+// updateHashtagsOnPage updates the displayed hashtags
 const updateHashtagsOnPage = function(hashtagsArray) {
     $('#hashtag-display').text(hashtagsArray.length > 0 ? `${hashtagsArray.map(hashtag => `#${hashtag}`).join(' ')}` : 'No hashtags set');
 };
 
+// handleHashtagDisplayClick handles the event when the hashtag display is clicked
 const handleHashtagDisplayClick = function(serverUrl) {
     $('#app-content').addClass('d-none');
     $('#zero-state').removeClass('d-none');
@@ -101,6 +119,7 @@ const handleHashtagDisplayClick = function(serverUrl) {
     $('#serverUrl').val(serverUrl);
 };
 
+// handleHashtagFormSubmit handles the submission of the hashtag form
 const handleHashtagFormSubmit = function(e, hashtagsArray) {
     e.preventDefault();
 
@@ -126,6 +145,7 @@ const handleHashtagFormSubmit = function(e, hashtagsArray) {
     window.location.href = newUrl;
 };
 
+// On document ready, the script configures Masonry, handles events, fetches and displays posts
 $(document).ready(async function() {
     const defaultServerUrl = await fetchConfig();
     $('.masonry-grid').masonry({
