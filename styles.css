@@ -65,13 +65,13 @@
 }
 
 .navbar-brand {
-  color: #ffbbbb !important;  /* change the text color */
+  color: rgba(255, 255, 255, 0.8) !important;  /* change the text color */
   margin: 0 auto;  /* center the brand name */
   font-size: 0.9em;
 }
 
 .navbar-info {
-  color: #dddddd !important;  /* change the text color */
+  color: rgba(255, 255, 255, 0.8) !important;  /* change the text color */
   margin: 0 auto;  /* center the brand name */
   font-size: 1.2em;
   display: block !important;
