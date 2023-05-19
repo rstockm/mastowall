@@ -1,47 +1,7 @@
+// The existingPosts array is used to track already displayed posts
 let existingPosts = [];
 
-// Function to calculate relative time
-const timeAgo = function(date) {
-    let seconds = Math.floor((new Date() - date) / 1000);
-    let interval = seconds / 31536000;
-    if (interval > 1) {
-        return Math.floor(interval) + " years ago";
-    }
-    interval = seconds / 2592000;
-    if (interval > 1) {
-        return Math.floor(interval) + " months ago";
-    }
-    interval = seconds / 86400;
-    if (interval > 1) {
-        return Math.floor(interval) + " days ago";
-    }
-    interval = seconds / 3600;
-    if (interval > 1) {
-        return Math.floor(interval) + " hours ago";
-    }
-    interval = seconds / 60;
-    if (interval > 1) {
-        return Math.floor(interval) + " minutes ago";
-    }
-    return Math.floor(seconds) + " seconds ago";
-}
-
-// Function to update times
-const updateTimes = function() {
-    // Find each timestamp element in the DOM
-    $('.card-text a').each(function() {
-        // Get the original date of the post
-        let date = new Date($(this).attr('data-time'));
-
-        // Calculate the new relative time
-        let newTimeAgo = timeAgo(date);
-
-        // Update the timestamp with the new relative time
-        $(this).text(newTimeAgo);
-    });
-};
-
-// Function to get a parameter by name from URL
+// getUrlParameter helps to fetch URL parameters
 function getUrlParameter(name) {
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
     var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
@@ -49,163 +9,181 @@ function getUrlParameter(name) {
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 }
 
-// Get hashtags from URL parameters
-let hashtags = getUrlParameter('hashtags');
+// secondsAgo calculates how many seconds have passed since the provided date
+const secondsAgo = date => Math.floor((new Date() - date) / 1000);
 
-// Split the hashtags string into an array
-let hashtagsArray = hashtags.split(',');
+// timeAgo formats the time elapsed in a human readable format
+const timeAgo = function(seconds) {
+    // An array of intervals for years, months, days, hours, and minutes.
+    const intervals = [
+        { limit: 31536000, text: 'years' },
+        { limit: 2592000, text: 'months' },
+        { limit: 86400, text: 'days' },
+        { limit: 3600, text: 'hours' },
+        { limit: 60, text: 'minutes' }
+    ];
 
+    // Loop through the intervals to find which one is the best fit.
+    for (let interval of intervals) {
+        if (seconds >= interval.limit) {
+            return Math.floor(seconds / interval.limit) + ` ${interval.text} ago`;
+        }
+    }
+    return Math.floor(seconds) + " seconds ago";
+};
 
-// Get server from URL parameters or use default
-let server = getUrlParameter('server') || 'https://mastodon.social';
+let includeReplies;
 
-// Function to fetch posts for a given hashtag
-const getPosts = function(hashtag) {
-    return $.get(`${server}/api/v1/timelines/tag/${hashtag}?limit=20`);
+// fetchConfig fetches the configuration from the config.json file
+const fetchConfig = async function() {
+    try {
+        const config = await $.getJSON('config.json');
+        $('#navbar-brand').text(config.navbarBrandText);
+        $('.navbar').css('background-color', config.navbarColor);
+        includeReplies = config.includeReplies;
+        return config.defaultServerUrl;
+    } catch (error) {
+        console.error("Error loading config.json:", error);
+    }
 }
 
+// fetchPosts fetches posts from the server using the given hashtag
+const fetchPosts = async function(serverUrl, hashtag) {
+    try {
+        const posts = await $.get(`${serverUrl}/api/v1/timelines/tag/${hashtag}?limit=20`);
+        return posts;
+    } catch (error) {
+        console.error(`Error loading posts for hashtag #${hashtag}:`, error);
+    }
+};
 
-// Function to fetch and display posts
-const fetchAndDisplayPosts = function() {
-        
-        // Fetch posts for each hashtag
-        $.when(...hashtagsArray.map(hashtag => getPosts(hashtag))).then(function(...hashtagPosts) {
-            let allPosts;
-
-            // Check if there are multiple hashtags or just one
-            if (hashtagsArray.length > 1) {
-                // If there are multiple hashtags, `hashtagPosts` is an array of arrays
-                // We use Array.prototype.flat() to combine them into one array
-                allPosts = hashtagPosts.map(postData => postData[0]).flat();
-            } else {
-                // If there's only one hashtag, `hashtagPosts` is a single array
-                allPosts = hashtagPosts[0];
-            }
-    
-        // Sort the posts by date/time
-        allPosts.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
-
-        // Loop through the sorted posts
-        $.each(allPosts, function(i, post) {
-            // Check if the post is not already displayed and is not a mention
-            if (!existingPosts.includes(post.id) && post.in_reply_to_id === null) {
-                // Add the post id to existingPosts
-                existingPosts.push(post.id);
-
-                let cardHTML = `
-                <div class="col-sm-3">
-                    <div class="card m-2 p-2">
-                        <div class="d-flex align-items-center mb-2">
-                            <img src="${post.account.avatar}" class="rounded-circle mr-2" width="50" height="50">
-                            <h5 class="card-title m-0"><a href="${post.account.url}" target="_blank">${post.account.username}</a></h5>
-                        </div>
-                        <p class="card-text">${post.content}</p>
-                        ${post.media_attachments.length > 0 ? `<img src="${post.media_attachments[0].preview_url}" class="card-img-top mb-2" alt="Image">` : ''}
-                        <p class="card-text text-right"><a href="${post.url}" target="_blank" data-time="${post.created_at}">${timeAgo(new Date(post.created_at))}</a></p>
-                    </div>
-                </div>
-            `;
-
-                // Convert the HTML string into a jQuery object
-                let $card = $(cardHTML);
-
-                // Prepend the new card to the wall
-                $('#wall').prepend($card);
-
-                // Refresh Masonry layout after all new cards have been added
-                $('.masonry-grid').masonry('prepended', $card);
-            }
-        });
+// updateTimesOnPage updates the time information displayed for each post
+const updateTimesOnPage = function() {
+    $('.card-text a').each(function() {
+        const date = new Date($(this).attr('data-time'));
+        const newTimeAgo = timeAgo(secondsAgo(date));
+        $(this).text(newTimeAgo);
     });
 };
 
-$(document).ready(function() {
-    // Initialize Masonry
+// displayPost creates and displays a post
+const displayPost = function(post) {
+    if (existingPosts.includes(post.id) || (!includeReplies && post.in_reply_to_id !== null)) return;
+
+    existingPosts.push(post.id);
+
+    let cardHTML = `
+        <div class="col-sm-3">
+            <div class="card m-2 p-2">
+                <div class="d-flex align-items-center mb-2">
+                    <img src="${post.account.avatar}" class="avatar-img rounded-circle mr-2">
+                    <p class="m-0">${post.account.display_name}</p>
+                </div>
+                ${post.media_attachments[0] ? `<img src="${post.media_attachments[0].url}" class="card-img-top mb-2">` : ''}
+                <p class="card-text">${post.content}</p>
+                ${post.spoiler_text ? `<p class="card-text text-muted spoiler">${post.spoiler_text}</p>` : ''}
+                <p class="card-text"><small class="text-muted"><a href="${post.url}" target="_blank" data-time="${post.created_at}">${timeAgo(secondsAgo(new Date(post.created_at)))}</a></small></p>
+            </div>
+        </div>
+    `;
+
+    let $card = $(cardHTML);
+    $('#wall').prepend($card);
+    $('.masonry-grid').masonry('prepended', $card);
+};
+
+// updateWall displays all posts
+const updateWall = function(posts) {
+    if (!posts || posts.length === 0) return;
+
+    posts.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+    posts.forEach(post => displayPost(post));
+};
+
+// updateHashtagsOnPage updates the displayed hashtags
+const updateHashtagsOnPage = function(hashtagsArray) {
+    $('#hashtag-display').text(hashtagsArray.length > 0 ? `${hashtagsArray.map(hashtag => `#${hashtag}`).join(' ')}` : 'No hashtags set');
+};
+
+// handleHashtagDisplayClick handles the event when the hashtag display is clicked
+const handleHashtagDisplayClick = function(serverUrl) {
+    $('#app-content').addClass('d-none');
+    $('#zero-state').removeClass('d-none');
+
+    const currentHashtags = getUrlParameter('hashtags').split(',');
+
+    for (let i = 0; i < currentHashtags.length; i++) {
+        $(`#hashtag${i+1}`).val(currentHashtags[i]);
+    }
+
+    $('#serverUrl').val(serverUrl);
+};
+
+// handleHashtagFormSubmit handles the submission of the hashtag form
+const handleHashtagFormSubmit = function(e, hashtagsArray) {
+    e.preventDefault();
+
+    let hashtags = [
+        $('#hashtag1').val(),
+        $('#hashtag2').val(),
+        $('#hashtag3').val()
+    ];
+
+    hashtags = hashtags.filter(function(hashtag) {
+        return hashtag !== '' && /^[\w]+$/.test(hashtag);
+    });
+
+    let serverUrl = $('#serverUrl').val();
+
+    if (!/^https:\/\/[\w.\-]+\/?$/.test(serverUrl)) {
+        alert('Invalid server URL.');
+        return;
+    }
+
+    const newUrl = window.location.origin + window.location.pathname + `?hashtags=${hashtags.join(',')}&server=${serverUrl}`;
+
+    window.location.href = newUrl;
+};
+
+// On document ready, the script configures Masonry, handles events, fetches and displays posts
+$(document).ready(async function() {
+    const defaultServerUrl = await fetchConfig();
     $('.masonry-grid').masonry({
         itemSelector: '.col-sm-3',
         columnWidth: '.col-sm-3',
         percentPosition: true
     });
 
-    // Re-arrange Masonry layout every 30 seconds
     setInterval(function() {
         $('.masonry-grid').masonry('layout');
     }, 10000);
 
-    // Event listener for clicking on the hashtags
+    const hashtags = getUrlParameter('hashtags');
+    const hashtagsArray = hashtags ? hashtags.split(',') : [];
+    const serverUrl = getUrlParameter('server') || defaultServerUrl;
+
     $('#hashtag-display').on('click', function() {
-        // Hide the main app content
-        $('#app-content').addClass('d-none');
-
-        // Show the form screen
-        $('#zero-state').removeClass('d-none');
-
-        // Get the current hashtags
-        let currentHashtags = $(this).text().split(' ');
-
-        // Pre-fill the form fields with the current hashtags
-        for (let i = 0; i < currentHashtags.length; i++) {
-            $(`#hashtag${i+1}`).val(currentHashtags[i].substring(1)); // Remove the leading '#'
-        }
-        
-        // Pre-fill the server field with the current server
-        $('#serverUrl').val(server);
+        handleHashtagDisplayClick(serverUrl);
     });
 
-    // Check if hashtags are provided
-    if (hashtagsArray[0] !== '') {
-        // Fetch posts for each hashtag on page load
-        fetchAndDisplayPosts();
-
-        // Fetch posts for each hashtag every 10 seconds
-        setInterval(fetchAndDisplayPosts, 10000);
+    if (hashtagsArray.length > 0 && hashtagsArray[0] !== '') {
+        const allPosts = await Promise.all(hashtagsArray.map(hashtag => fetchPosts(serverUrl, hashtag)));
+        updateWall(allPosts.flat());
+        setInterval(async function() {
+            const newPosts = await Promise.all(hashtagsArray.map(hashtag => fetchPosts(serverUrl, hashtag)));
+            updateWall(newPosts.flat());
+        }, 10000);
     } else {
-        // Show the zero state and hide the app content
         $('#zero-state').removeClass('d-none');
         $('#app-content').addClass('d-none');
     }
 
-    // Update the navbar info with the provided hashtags
-    $('#hashtag-display').text(`${hashtagsArray.map(hashtag => `#${hashtag}`).join(' ')}`);
+    updateHashtagsOnPage(hashtagsArray);
 
-
-    // Handle the form submit event
     $('#hashtag-form').on('submit', function(e) {
-        // Prevent the default form submission
-        e.preventDefault();
-
-        // Get the entered hashtags
-        let hashtags = [
-            $('#hashtag1').val(),
-            $('#hashtag2').val(),
-            $('#hashtag3').val()
-        ];
-
-        // Filter out any empty strings and validate hashtag format
-        hashtags = hashtags.filter(function(hashtag) {
-            return hashtag !== '' && /^[\w]+$/.test(hashtag);
-        });
-
-        // Get the entered server URL
-        let serverUrl = $('#serverUrl').val();
-
-        // Validate server URL format
-        if (!/^https:\/\/[\w.\-]+\/?$/.test(serverUrl)) {
-            alert('Invalid server URL.');
-            return;
-        }
-
-        // Create a new URL with the entered hashtags and server URL
-        let newUrl = window.location.origin + window.location.pathname + `?hashtags=${hashtags.join(',')}&server=${serverUrl}`;
-
-        // Reload the page with the new URL
-        window.location.href = newUrl;
+        handleHashtagFormSubmit(e, hashtagsArray);
     });
 
-
-    // Update the times once when the page loads
-    updateTimes();
-
-    // Then update every 60 seconds
-    setInterval(updateTimes, 60000);
+    updateTimesOnPage();
+    setInterval(updateTimesOnPage, 60000);
 });
