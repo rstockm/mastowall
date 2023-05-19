@@ -1,14 +1,19 @@
-# Mastowall 0.2
+# Mastowall 1.0
 
 Mastowall is a social wall application that displays posts from the [Mastodon](https://joinmastodon.org/) social network based on specified hashtags. It has been updated with new features to improve its usability and appearance.
 
-<img width="1520" alt="image" src="https://github.com/rstockm/mastowall/assets/3195116/d26fe65b-159b-4098-ad5b-bc551049b16d">
+<img width="1435" alt="image" src="https://github.com/rstockm/mastowall/assets/3195116/af1a3786-335b-4d64-b387-0db75dd73040">
 
 Try it live: [Mastowall for the BiblioCon conference]([https://rstockm.github.io/mastowall/?hashtags=111bibliocon,bibliocon,bibliocon23&server=https://openbiblio.social))
 
 Use your own hashtags and server:
 
-<img width="1188" alt="image" src="https://github.com/rstockm/mastowall/assets/3195116/98d7e33f-49a7-4f89-81d3-8762942440fa">
+<img width="1164" alt="image" src="https://github.com/rstockm/mastowall/assets/3195116/97814e5b-5377-426a-bfff-78be8f560421">
+
+JSON config file:
+
+<img width="567" alt="image" src="https://github.com/rstockm/mastowall/assets/3195116/27fe7f0b-c79e-4539-ac44-053ea5d3f101">
+
 
 
 ## Features
@@ -26,6 +31,10 @@ Use your own hashtags and server:
 - **Responsive Design:** The layout adjusts according to the screen size for better readability on different devices.
 
 - **Navbar Hashtag Navigation:** Clicking on the hashtags in the navbar takes you to the form screen, allowing you to change the existing hashtags easily.
+
+- **Navbar Color Customization:** The color of the navigation bar can now be customized via the `config.json` file.
+
+- **Including Replies:** By default, replies are excluded from the wall. However, this behavior can be changed by setting includeReplies to true in the `config.json` file.
 
 ## Technology Stack
 
@@ -57,7 +66,7 @@ Enjoy using Mastowall 0.2!
 
 ## AI-Guided Development: A Proof of Concept
 
-Mastowall 0.2 serves as an example of how artificial intelligence can aid and accelerate the software development process. The development of this version of the app was guided by OpenAI's GPT-4, a large language model.
+Mastowall may serve as an example of how artificial intelligence can aid and accelerate the software development process. The development of this version of the app was guided by OpenAI's GPT-4, a large language model.
 
 In this process, the human developer posed problems, asked questions, and described the desired features and functionalities of the application. GPT-4 then provided solutions, answered queries, generated code snippets, and suggested optimal ways to implement these features.
 
