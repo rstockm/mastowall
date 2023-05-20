@@ -82,7 +82,7 @@ const displayPost = function(post) {
                 ${post.media_attachments[0] ? `<img src="${post.media_attachments[0].url}" class="card-img-top mb-2">` : ''}
                 <p class="card-text">${post.content}</p>
                 ${post.spoiler_text ? `<p class="card-text text-muted spoiler">${post.spoiler_text}</p>` : ''}
-                <p class="card-text"><small class="text-muted"><a href="${post.url}" target="_blank" data-time="${post.created_at}">${timeAgo(secondsAgo(new Date(post.created_at)))}</a></small></p>
+                <p class="card-text text-right"><small class="text-muted"><a href="${post.url}" target="_blank" data-time="${post.created_at}">${timeAgo(secondsAgo(new Date(post.created_at)))}</a></small></p>
             </div>
         </div>
     `;
