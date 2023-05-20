@@ -1,6 +1,6 @@
 # Mastowall 1.0
 
-Mastowall is a social wall application that displays posts from the [Mastodon](https://joinmastodon.org/) social network based on specified hashtags. It was written entirely by ChatGPT4, guided only by text prompts.
+Mastowall is a social wall application that displays posts from the [Mastodon](https://joinmastodon.org/) social network based on specified hashtags. It was written entirely by [ChatGPT4](https://openai.com/product/gpt-4), guided only by text prompts.
 
 <img width="1435" alt="image" src="https://github.com/rstockm/mastowall/assets/3195116/af1a3786-335b-4d64-b387-0db75dd73040">
 
