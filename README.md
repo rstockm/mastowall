@@ -4,7 +4,7 @@ Mastowall is a social wall application that displays posts from the [Mastodon](h
 
 <img width="1435" alt="image" src="https://github.com/rstockm/mastowall/assets/3195116/af1a3786-335b-4d64-b387-0db75dd73040">
 
-Try it live: [Mastowall for the BiblioCon conference]([https://rstockm.github.io/mastowall/?hashtags=111bibliocon,bibliocon,bibliocon23&server=https://openbiblio.social))
+Try it live: [Mastowall for the BiblioCon conference](https://rstockm.github.io/mastowall/?hashtags=111bibliocon,bibliocon,bibliocon23&server=https://openbiblio.social))
 
 Use your own hashtags and server:
 
@@ -62,7 +62,7 @@ Mastowall is built using the following technologies:
 
 Mastowall supports URL parameters to easily share specific hashtag configurations and the Mastodon server. Simply append the desired hashtags and the server URL to the URL following this format: `?hashtags=hashtag1,hashtag2,hashtag3&server=serverUrl`
 
-Enjoy using Mastowall 0.2!
+Enjoy using Mastowall!
 
 ## AI-Guided Development: A Proof of Concept
 
