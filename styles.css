@@ -23,6 +23,7 @@
 
 .card-text.text-right {
     text-align: right;
+    margin-top: -20px !important;
 }
 
 /* Add padding to the card body to prevent overlay with avatar and username */
