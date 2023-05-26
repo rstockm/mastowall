@@ -2,7 +2,7 @@
 
 Mastowall is a social wall application that displays posts from the [Mastodon](https://joinmastodon.org/) social network based on specified hashtags. It was written entirely by [ChatGPT4](https://openai.com/product/gpt-4), guided only by text prompts.
 
-<img width="1435" alt="image" src="https://github.com/rstockm/mastowall/assets/3195116/af1a3786-335b-4d64-b387-0db75dd73040">
+<img width="1348" alt="image" src="https://github.com/rstockm/mastowall/assets/3195116/7060536e-4847-4e38-801e-3c0312b8b194">
 
 Try it live: [Mastowall for the BiblioCon conference](https://rstockm.github.io/mastowall/?hashtags=111bibliocon,bibliocon,bibliocon23&server=https://openbiblio.social))
 
