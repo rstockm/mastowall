@@ -1,4 +1,4 @@
-# Mastowall 1.0
+# Mastowall 1.1
 
 Mastowall is a social wall application that displays posts from the [Mastodon](https://joinmastodon.org/) social network based on specified hashtags. It was written entirely by [ChatGPT4](https://openai.com/product/gpt-4), guided only by text prompts.
 
@@ -47,6 +47,8 @@ Mastowall is built using the following technologies:
 - **[Masonry](https://masonry.desandro.com/)**: A JavaScript grid layout library.
 
 - **[Bootstrap](https://getbootstrap.com/)**: A popular CSS framework for responsive, mobile-first front-end web development.
+
+- **[DOMPurify](https://github.com/cure53/DOMPurify)**: Library for sanitizing HTML input, which should prevent the vast majority of malicious input from being rendered
 
 ## Usage
 
