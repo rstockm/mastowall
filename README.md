@@ -8,7 +8,7 @@ Try it live: [Mastowall for the BiblioCon conference](https://rstockm.github.io/
 
 Use your own hashtags and server:
 
-<img width="1164" alt="image" src="https://github.com/rstockm/mastowall/assets/3195116/97814e5b-5377-426a-bfff-78be8f560421">
+<img width="1108" alt="image" src="https://github.com/rstockm/mastowall/assets/3195116/761237da-2166-46c5-8f31-46b9e913f736">
 
 JSON config file:
 
