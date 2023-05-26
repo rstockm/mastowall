@@ -77,11 +77,11 @@ const displayPost = function(post) {
             <div class="card m-2 p-2">
                 <div class="d-flex align-items-center mb-2">
                     <img src="${post.account.avatar}" class="avatar-img rounded-circle mr-2">
-                    <p class="m-0">${post.account.display_name}</p>
+                    <p class="m-0">${DOMPurify.sanitize(post.account.display_name)}</p>
                 </div>
                 ${post.media_attachments[0] ? `<img src="${post.media_attachments[0].url}" class="card-img-top mb-2">` : ''}
-                <p class="card-text">${post.content}</p>
-                ${post.spoiler_text ? `<p class="card-text text-muted spoiler">${post.spoiler_text}</p>` : ''}
+                <p class="card-text">${DOMPurify.sanitize(post.content)}</p>
+                ${post.spoiler_text ? `<p class="card-text text-muted spoiler">${DOMPurify.sanitize(post.spoiler_text)}</p>` : ''}
                 <p class="card-text text-right"><small class="text-muted"><a href="${post.url}" target="_blank" data-time="${post.created_at}">${timeAgo(secondsAgo(new Date(post.created_at)))}</a></small></p>
             </div>
         </div>
