@@ -100,10 +100,21 @@ const updateWall = function(posts) {
     posts.forEach(post => displayPost(post));
 };
 
+// hashtagsString returns a single string based on the given array of hashtags
+const hashtagsString = function(hashtagsArray) {
+  return `${hashtagsArray.map(hashtag => `#${hashtag}`).join(' ')}`;
+}
+
 // updateHashtagsOnPage updates the displayed hashtags
 const updateHashtagsOnPage = function(hashtagsArray) {
-    $('#hashtag-display').text(hashtagsArray.length > 0 ? `${hashtagsArray.map(hashtag => `#${hashtag}`).join(' ')}` : 'No hashtags set');
+    $('#hashtag-display').text(hashtagsArray.length > 0 ? hashtagsString(hashtagsArray) : 'No hashtags set');
 };
+
+// updateHashtagsOnPage updates the document title by appending the given array of hashtags
+const updateHashtagsInTitle = function(hashtagsArray) {
+    const baseTitle = document.title;
+    document.title = `${baseTitle} | ${hashtagsString(hashtagsArray)}`;
+}
 
 // handleHashtagDisplayClick handles the event when the hashtag display is clicked
 const handleHashtagDisplayClick = function(serverUrl) {
@@ -179,6 +190,7 @@ $(document).ready(async function() {
     }
 
     updateHashtagsOnPage(hashtagsArray);
+    updateHashtagsInTitle(hashtagsArray);
 
     $('#hashtag-form').on('submit', function(e) {
         handleHashtagFormSubmit(e, hashtagsArray);
