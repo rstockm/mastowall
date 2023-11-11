@@ -92,6 +92,15 @@ const displayPost = function(post) {
     $('.masonry-grid').masonry('prepended', $card);
 };
 
+// Set the document title based on the first hashtag in the URL
+document.addEventListener('DOMContentLoaded', function() {
+    const hashtags = getUrlParameter('hashtags');
+    if (hashtags) {
+        const firstHashtag = hashtags.split(',')[0];
+        document.title = `#${firstHashtag} - Mastowall 1.2`;
+    }
+});
+
 // updateWall displays all posts
 const updateWall = function(posts) {
     if (!posts || posts.length === 0) return;
@@ -107,7 +116,9 @@ const hashtagsString = function(hashtagsArray) {
 
 // updateHashtagsOnPage updates the displayed hashtags
 const updateHashtagsOnPage = function(hashtagsArray) {
-    $('#hashtag-display').text(hashtagsArray.length > 0 ? hashtagsString(hashtagsArray) : 'No hashtags set');
+    const settingsIcon = ' <span id="settings-icon">⚙️</span>'; // Unicode gear character inside a span for settings
+    const hashtagsText = hashtagsArray.length > 0 ? hashtagsString(hashtagsArray) + settingsIcon : 'No hashtags set' + settingsIcon;
+    $('#hashtag-display').html(hashtagsText);
 };
 
 // updateHashtagsOnPage updates the document title by appending the given array of hashtags
