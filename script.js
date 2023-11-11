@@ -79,9 +79,11 @@ const displayPost = function(post) {
                     <img src="${post.account.avatar}" class="avatar-img rounded-circle mr-2">
                     <p class="m-0">${DOMPurify.sanitize(post.account.display_name)}</p>
                 </div>
-                ${post.media_attachments[0] ? ((post.media_attachments[0].url.endsWith('.mp4')) ?
-                    `<video src="${post.media_attachments[0].url}" controls></video>`
-                    : `<img src="${post.media_attachments[0].url}" class="card-img-top mb-2">`) : ''}
+                ${post.media_attachments[0] ? 
+                    (post.media_attachments[0].url.endsWith('.mp4') ?
+                        `<video src="${post.media_attachments[0].url}" controls autoplay muted loop></video>` :
+                        `<img src="${post.media_attachments[0].url}" class="card-img-top mb-2">`) :
+                    ''}
                 <p class="card-text">${DOMPurify.sanitize(post.content)}</p>
                 ${post.spoiler_text ? `<p class="card-text text-muted spoiler">${DOMPurify.sanitize(post.spoiler_text)}</p>` : ''}
                 <p class="card-text text-right"><small class="text-muted"><a href="${post.url}" target="_blank" data-time="${post.created_at}">${timeAgo(secondsAgo(new Date(post.created_at)))}</a></small></p>
