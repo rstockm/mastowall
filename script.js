@@ -14,7 +14,6 @@ const secondsAgo = date => Math.floor((new Date() - date) / 1000);
 
 // timeAgo formats the time elapsed in a human readable format
 const timeAgo = function(seconds) {
-    // An array of intervals for years, months, days, hours, and minutes.
     const intervals = [
         { limit: 31536000, text: 'years' },
         { limit: 2592000, text: 'months' },
@@ -23,7 +22,6 @@ const timeAgo = function(seconds) {
         { limit: 60, text: 'minutes' }
     ];
 
-    // Loop through the intervals to find which one is the best fit.
     for (let interval of intervals) {
         if (seconds >= interval.limit) {
             return Math.floor(seconds / interval.limit) + ` ${interval.text} ago`;
@@ -120,12 +118,12 @@ const hashtagsString = function(hashtagsArray) {
 
 // updateHashtagsOnPage updates the displayed hashtags
 const updateHashtagsOnPage = function(hashtagsArray) {
-    const settingsIcon = ' <span id="settings-icon">⚙️</span>'; // Unicode gear character inside a span for settings
+    const settingsIcon = ' <span id="settings-icon">⚙️</span>';
     const hashtagsText = hashtagsArray.length > 0 ? hashtagsString(hashtagsArray) + settingsIcon : 'No hashtags set' + settingsIcon;
     $('#hashtag-display').html(hashtagsText);
 };
 
-// updateHashtagsOnPage updates the document title by appending the given array of hashtags
+// updateHashtagsInTitle updates the document title by appending the given array of hashtags
 const updateHashtagsInTitle = function(hashtagsArray) {
     const baseTitle = document.title;
     document.title = `${baseTitle} | ${hashtagsString(hashtagsArray)}`;
@@ -171,6 +169,9 @@ const handleHashtagFormSubmit = function(e, hashtagsArray) {
     window.location.href = newUrl;
 };
 
+// Initialize isFirstLoad flag
+let isFirstLoad = true;
+
 // On document ready, the script configures Masonry, handles events, fetches and displays posts
 $(document).ready(async function() {
     const defaultServerUrl = await fetchConfig();
@@ -179,6 +180,14 @@ $(document).ready(async function() {
         columnWidth: '.col-sm-3',
         percentPosition: true
     });
+
+    // Initial reshuffle after 3 seconds only on first load
+    if (isFirstLoad) {
+        setTimeout(function() {
+            $('.masonry-grid').masonry('layout');
+            isFirstLoad = false;
+        }, 3000);
+    }
 
     setInterval(function() {
         $('.masonry-grid').masonry('layout');
