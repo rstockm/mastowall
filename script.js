@@ -48,7 +48,7 @@ const fetchConfig = async function() {
 // fetchPosts fetches posts from the server using the given hashtag
 const fetchPosts = async function(serverUrl, hashtag) {
     try {
-        const posts = await $.get(`${serverUrl}/api/v1/timelines/tag/${hashtag}?limit=20`);
+        const posts = await $.get(`${serverUrl}/api/v1/timelines/tag/${hashtag}?limit=40`);
         return posts;
     } catch (error) {
         console.error(`Error loading posts for hashtag #${hashtag}:`, error);
