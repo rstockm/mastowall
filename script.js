@@ -70,6 +70,34 @@ const displayPost = function(post) {
 
     existingPosts.push(post.id);
 
+    const attachments = Array.isArray(post.media_attachments) ? post.media_attachments : [];
+    const imageAttachments = attachments.filter(att => !(att.url || '').endsWith('.mp4'));
+    const hasVideo = attachments.some(att => (att.url || '').endsWith('.mp4'));
+
+    let mediaHTML = '';
+    if (imageAttachments.length > 1) {
+        const carouselId = `carousel-${post.id}`;
+        const indicators = imageAttachments.map((_, idx) => `
+            <li data-target="#${carouselId}" data-slide-to="${idx}"${idx === 0 ? ' class="active"' : ''}></li>
+        `).join('');
+        const slides = imageAttachments.map((att, idx) => `
+            <div class="carousel-item${idx === 0 ? ' active' : ''}">
+                <img src="${att.url}" class="card-img-top" alt="">
+            </div>
+        `).join('');
+        mediaHTML = `
+            <div id="${carouselId}" class="carousel carousel-fade mb-2" data-ride="carousel" data-interval="2000">
+                <ol class="carousel-indicators">${indicators}</ol>
+                <div class="carousel-inner">${slides}</div>
+            </div>
+        `;
+    } else if (imageAttachments.length === 1) {
+        mediaHTML = `<img src="${imageAttachments[0].url}" class="card-img-top mb-2" alt="">`;
+    } else if (hasVideo) {
+        const videoAtt = attachments.find(att => (att.url || '').endsWith('.mp4'));
+        mediaHTML = `<video src="${videoAtt.url}" controls autoplay muted loop class="mb-2"></video>`;
+    }
+
     let cardHTML = `
         <div class="col-sm-3">
             <div class="card m-2 p-2">
@@ -77,11 +105,7 @@ const displayPost = function(post) {
                     <img src="${post.account.avatar}" class="avatar-img rounded-circle mr-2">
                     <p class="m-0">${DOMPurify.sanitize(post.account.display_name)}</p>
                 </div>
-                ${post.media_attachments[0] ? 
-                    (post.media_attachments[0].url.endsWith('.mp4') ?
-                        `<video src="${post.media_attachments[0].url}" controls autoplay muted loop></video>` :
-                        `<img src="${post.media_attachments[0].url}" class="card-img-top mb-2">`) :
-                    ''}
+                ${mediaHTML}
                 <p class="card-text">${DOMPurify.sanitize(post.content)}</p>
                 ${post.spoiler_text ? `<p class="card-text text-muted spoiler">${DOMPurify.sanitize(post.spoiler_text)}</p>` : ''}
                 <p class="card-text text-right"><small class="text-muted"><a href="${post.url}" target="_blank" data-time="${post.created_at}">${timeAgo(secondsAgo(new Date(post.created_at)))}</a></small></p>
@@ -92,6 +116,37 @@ const displayPost = function(post) {
     let $card = $(cardHTML);
     $('#wall').prepend($card);
     $('.masonry-grid').masonry('prepended', $card);
+
+    // Initialize carousel if present and relayout Masonry on slide and image load
+    const $carousel = $card.find('.carousel');
+    if ($carousel.length) {
+        $carousel.carousel({ interval: 2000 });
+
+        // Lock height to first slide once it's loaded
+        const $firstImg = $carousel.find('.carousel-item img').first();
+        const setHeight = function() {
+            const h = $firstImg.height();
+            if (h) {
+                $carousel.find('.carousel-inner').css('height', h + 'px');
+                $('.masonry-grid').masonry('layout');
+            }
+        };
+        if ($firstImg[0] && $firstImg[0].complete) {
+            setHeight();
+        } else {
+            $firstImg.on('load', setHeight);
+        }
+        $carousel.on('slid.bs.carousel', function() {
+            $('.masonry-grid').masonry('layout');
+        });
+        $carousel.imagesLoaded(function() {
+            $('.masonry-grid').masonry('layout');
+        });
+    } else {
+        $card.imagesLoaded(function() {
+            $('.masonry-grid').masonry('layout');
+        });
+    }
 };
 
 // Set the document title based on the first hashtag in the URL
@@ -99,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const hashtags = getUrlParameter('hashtags');
     if (hashtags) {
         const firstHashtag = hashtags.split(',')[0];
-        document.title = `#${firstHashtag} - Mastowall 1.2`;
+        document.title = `#${firstHashtag} - Mastowall 1.3`;
     }
 });
 
@@ -222,4 +277,49 @@ $(document).ready(async function() {
 
     updateTimesOnPage();
     setInterval(updateTimesOnPage, 60000);
+
+    const showOverlayWithMedia = function(src, isVideo) {
+        const $overlay = $('#media-overlay');
+        const $content = $('#overlay-content');
+        $content.empty();
+        if (isVideo) {
+            const $video = $('<video />', {
+                src: src,
+                controls: true,
+                autoplay: true,
+                muted: true,
+                loop: true
+            });
+            $content.append($video);
+        } else {
+            const $img = $('<img />', { src: src, alt: '' });
+            $content.append($img);
+        }
+        $overlay.removeClass('d-none');
+    };
+
+    const hideOverlay = function() {
+        $('#media-overlay').addClass('d-none');
+        $('#overlay-content').empty();
+    };
+
+    $('#wall').on('click', 'img.card-img-top', function() {
+        const src = $(this).attr('src');
+        showOverlayWithMedia(src, false);
+    });
+
+    $('#wall').on('click', 'video', function() {
+        const src = $(this).attr('src');
+        showOverlayWithMedia(src, true);
+    });
+
+    $('#overlay-close').on('click', function() {
+        hideOverlay();
+    });
+
+    $(document).on('keydown', function(e) {
+        if (e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27) {
+            hideOverlay();
+        }
+    });
 });

@@ -1,4 +1,4 @@
-# Mastowall 1.1
+# Mastowall 1.3
 
 Mastowall is a social wall application that displays posts from the [Mastodon](https://joinmastodon.org/) social network based on specified hashtags. It was written entirely by [ChatGPT4](https://openai.com/product/gpt-4), guided only by text prompts.
 
@@ -37,6 +37,12 @@ JSON config file:
 
 - **Including Replies:** By default, replies are excluded from the wall. However, this behavior can be changed by setting includeReplies to true in the `config.json` file.
 
+- **Media Overlay (Lightbox):** Clicking any image or video opens a large overlay above the wall. Close via the X button or ESC.
+
+- **Multi-image Carousel:** Posts with multiple images render as a Bootstrap carousel (2s interval) with indicators, so viewers can see there is more than one image.
+
+- **Stable Height & Letterboxing:** Carousel height locks to the first image. Subsequent slides use `object-fit: contain` with black background, ensuring no cropping and preventing masonry jumps.
+
 ## Technology Stack
 
 Mastowall is built using the following technologies:
@@ -66,6 +72,10 @@ Mastowall is built using the following technologies:
 Mastowall supports URL parameters to easily share specific hashtag configurations and the Mastodon server. Simply append the desired hashtags and the server URL to the URL following this format: `?hashtags=hashtag1,hashtag2,hashtag3&server=serverUrl`
 
 Enjoy using Mastowall!
+
+### Related project
+
+To discover strong hashtag combinations, try [Mastotags](https://rstockm.github.io/mastotags/).
 
 ## AI-Guided Development: A Proof of Concept
 
