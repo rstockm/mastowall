@@ -5,7 +5,7 @@ Mastowall is a social wall application that displays posts from the [Mastodon](h
 <img width="2662" height="1604" alt="image" src="https://github.com/user-attachments/assets/7c092c9a-cccc-43df-969e-090da2e67ae6" />
 
 
-Try it live: [Mastowall for the Open Source Summit]([https://rstockm.github.io/mastowall/?hashtags=wwdc,wwdc23,apple&server=https://mastodon.social](https://rstockm.github.io/mastowall/?hashtags=opensourcesummit,ossummit&server=https://mastodon.social)))
+Try it live: [[Mastowall for the Open Source Summit]](https://rstockm.github.io/mastowall/?hashtags=opensourcesummit,ossummit&server=https://mastodon.social)
 
 Use your own hashtags and server via the settings:
 
