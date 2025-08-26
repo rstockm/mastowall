@@ -2,14 +2,15 @@
 
 Mastowall is a social wall application that displays posts from the [Mastodon](https://joinmastodon.org/) social network based on specified hashtags. It was written entirely by [ChatGPT4](https://openai.com/product/gpt-4), guided only by text prompts.
 
-<img width="1348" alt="image" src="https://github.com/rstockm/mastowall/assets/3195116/7060536e-4847-4e38-801e-3c0312b8b194">
+<img width="2662" height="1604" alt="image" src="https://github.com/user-attachments/assets/7c092c9a-cccc-43df-969e-090da2e67ae6" />
 
 
-Try it live: [Mastowall for the WWDC conference](https://rstockm.github.io/mastowall/?hashtags=wwdc,wwdc23,apple&server=https://mastodon.social))
+Try it live: [Mastowall for the Open Source Summit]([https://rstockm.github.io/mastowall/?hashtags=wwdc,wwdc23,apple&server=https://mastodon.social](https://rstockm.github.io/mastowall/?hashtags=opensourcesummit,ossummit&server=https://mastodon.social)))
 
-Use your own hashtags and server:
+Use your own hashtags and server via the settings:
 
-<img width="1108" alt="image" src="https://github.com/rstockm/mastowall/assets/3195116/761237da-2166-46c5-8f31-46b9e913f736">
+<img width="2210" height="1290" alt="image" src="https://github.com/user-attachments/assets/2c50ee2d-1571-4d25-a5cf-2ab98f062850" />
+
 
 JSON config file:
 
