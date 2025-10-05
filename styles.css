@@ -15,15 +15,7 @@
   left: 10px;
 }
 
-#settings-icon {
-  cursor: pointer;
-  padding-left: 20px; 
-  opacity: 0.5; /* 50% transparency */
-}
-
-#settings-icon:hover {
-  opacity: 1; /* 100% opacity on hover */
-}
+/* Settings icon styling entfernt - jetzt Teil der Button-Group */
 
 .card-username {
   position: absolute;
@@ -95,24 +87,39 @@
 
 /* Custom navbar styles */
 .navbar {
-  height: 50px;  /* reduce the height of the navbar */
-  background-color: rgb(227, 6, 19);
-  margin-bottom: 10px !important;
+  background-color: rgb(255, 255, 255) !important;
+  margin: -10px 0 10px 0 !important;
+  border: 0 !important;
+  padding: 15px !important;
+  min-height: auto !important;
+  height: 54px !important;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.05);
+  position: sticky !important;
   top: -10px !important;
-  padding-top: 14px !important;
+  z-index: 1000 !important;
 }
 
 .navbar-brand {
-  color: rgba(255, 255, 255, 0.8) !important;  /* change the text color */
-  margin: 0 auto;  /* center the brand name */
+  color: rgba(100, 100, 100, 0.9) !important;
   font-size: 0.9em;
+  padding: 0 !important;
+  margin: 0 !important;
+  height: auto !important;
+  line-height: 1 !important;
+}
+
+.navbar-brand-dark {
+  color: rgba(30, 30, 30, 0.9) !important; /* 30% dunkler als der Rest */
 }
 
 .navbar-info {
-  color: rgba(255, 255, 255, 0.8) !important;  /* change the text color */
-  margin: 0 auto;  /* center the brand name */
+  color: rgba(60, 60, 60, 0.9) !important;
   font-size: 1.2em;
-  display: block !important;
+  padding: 0 !important;
+  margin: 0 auto !important;
+  height: auto !important;
+  line-height: 1 !important;
 }
 
 .hashtag {
@@ -126,7 +133,7 @@
 
 /* Set the background color of the body */
 body {
-  background-color: #cccccc;
+  background-color: #eeeeee;
   margin-top: 00px !important;
   margin-left: 20px !important;
   margin-right: 20px !important;
@@ -155,6 +162,16 @@ body {
 .avatar-img {
   width: 50px;
   height: 50px;
+}
+
+.avatar-link {
+  display: inline-block;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.avatar-link:hover {
+  opacity: 0.8;
 }
 
 .container {
@@ -218,4 +235,384 @@ body {
 
 #overlay-close:hover {
   background: rgba(0, 0, 0, 0.8);
+}
+
+/* View toggle styles */
+#view-toggle {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 0 !important;
+  margin: 0 !important;
+  height: auto !important;
+}
+
+/* Connect Status Icon */
+#connect-status-icon {
+  font-size: 0.9em;
+  color: rgba(100, 100, 100, 0.6);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 0 0 0 12px !important;
+  padding: 0 !important;
+  line-height: 1 !important;
+}
+
+#connect-status-icon:hover {
+  color: rgba(255, 255, 255, 0.9);
+  transform: scale(1.1);
+}
+
+#connect-status-icon.connected {
+  color: rgba(100, 100, 100, 0.9);
+}
+
+#view-toggle .btn {
+  min-width: 80px;
+  font-size: 0.85em;
+  padding: 4px 12px;
+}
+
+/* Modern Button Group Styles */
+#view-toggle .btn-group {
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  height: 32px; /* Feste Höhe für konsistente Darstellung */
+}
+
+#view-toggle .btn-group .btn {
+  border: none;
+  border-radius: 0;
+  min-width: 40px;
+  padding: 6px 10px;
+  font-size: 0.85em;
+  transition: all 0.15s ease;
+  position: relative;
+  height: 32px; /* Gleiche Höhe wie Container */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(248, 249, 250, 0.8); /* Leichte Transparenz */
+  color: rgba(108, 117, 125, 0.9); /* Leichte Transparenz */
+}
+
+#view-toggle .btn-group .btn:first-child {
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+#view-toggle .btn-group .btn:last-child {
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+/* Entferne Trennlinien zwischen Buttons für nahtlose Verbindung */
+#view-toggle .btn-group .btn:not(:last-child) {
+  border-right: none;
+}
+
+/* Aktiver Button - dezentere Farbe passend zum Header */
+#view-toggle .btn-group .btn.btn-primary {
+  background-color: rgba(52, 58, 84, 0.7); /* Dunkelblau-grau passend zum Header-Hintergrund */
+  color: rgba(255, 255, 255, 0.95);
+  border-color: rgba(52, 58, 84, 0.7);
+}
+
+/* Hover-Effekt für gesamte Gruppe */
+#view-toggle .btn-group .btn:hover {
+  background-color: rgba(233, 236, 239, 0.9);
+  color: #495057;
+}
+
+#view-toggle .btn-group .btn.btn-primary:hover {
+  background-color: rgba(52, 58, 84, 0.85); /* Etwas dunkler beim Hover */
+  color: white;
+}
+
+/* Icon-Styling */
+#view-toggle .btn-group .btn i {
+  font-size: 1em;
+  line-height: 1;
+}
+
+/* Verbundener Button - einheitliche Farbe */
+#view-toggle .btn-group .btn.btn-success {
+  background-color: #28a745;
+  color: white;
+  border-color: #28a745;
+}
+
+#view-toggle .btn-group .btn.btn-success:hover {
+  background-color: #1e7e34;
+  color: white;
+}
+
+/* People list styles */
+.people-list {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.people-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 12px 20px;
+  background: #fff;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
+  transition: opacity 400ms ease, transform 400ms ease;
+  will-change: opacity, transform;
+}
+
+.people-item:hover {
+  background: #f5f5f5;
+}
+
+.people-item.is-hidden {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.people-item .people-avatar {
+  visibility: hidden;
+}
+
+.people-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.people-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin-right: 15px;
+}
+
+.people-name-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.people-name {
+  font-weight: 500;
+  font-size: 1.1em;
+}
+
+.people-profile-link {
+  opacity: 0;
+  color: rgba(108, 117, 125, 0.8);
+  font-size: 0.9em;
+  transition: opacity 0.2s ease, color 0.2s ease;
+  text-decoration: none;
+}
+
+.people-item:hover .people-profile-link {
+  opacity: 1;
+}
+
+.people-profile-link:hover {
+  color: #007bff;
+}
+
+.people-profile-link i {
+  font-size: 0.85em;
+}
+
+.people-bio {
+  font-size: 0.85em;
+  color: #666;
+  line-height: 1.4;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  transition: all 0.3s ease;
+  margin-bottom: 0;
+}
+
+.people-item.expanded .people-bio {
+  -webkit-line-clamp: unset;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.people-posts {
+  display: none;
+  margin-top: 12px;
+  padding-top: 12px;
+}
+
+.people-item.expanded .people-posts {
+  display: block;
+}
+
+.people-post {
+  margin-bottom: 12px;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
+  font-size: 0.85em;
+}
+
+.people-post:last-child {
+  margin-bottom: 0;
+}
+
+.people-post-content {
+  color: #333;
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+
+.people-post-content p {
+  margin: 0;
+}
+
+.people-post-meta {
+  font-size: 0.9em;
+  color: #999;
+}
+
+.people-post-meta a {
+  color: #999;
+  text-decoration: none;
+}
+
+.people-post-meta a:hover {
+  color: #666;
+  text-decoration: underline;
+}
+
+.people-item {
+  cursor: pointer;
+}
+
+.people-actions {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  height: 32px;
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 19px !important;
+}
+
+.people-count {
+  background: rgba(248, 249, 250, 0.8);
+  color: rgba(108, 117, 125, 0.9);
+  padding: 6px 12px;
+  font-size: 0.85em;
+  font-weight: normal;
+  min-width: 45px;
+  text-align: center;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: none;
+}
+
+.people-actions .follow-btn {
+  border: none;
+  border-radius: 0;
+  height: 32px;
+  padding: 6px 12px;
+  font-size: 0.85em;
+  margin: 0;
+  background-color: rgba(248, 249, 250, 0.8);
+  color: rgba(108, 117, 125, 0.9);
+  transition: all 0.15s ease;
+}
+
+.people-actions .follow-btn:hover {
+  background-color: rgba(233, 236, 239, 0.9);
+  color: #495057;
+}
+
+.people-actions .follow-btn.btn-success {
+  background-color: #28a745;
+  color: white;
+}
+
+.people-actions .follow-btn.btn-success:hover {
+  background-color: #1e7e34;
+}
+
+.people-actions .follow-btn.btn-warning {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.people-actions .follow-btn.btn-warning:hover {
+  background-color: #e0a800;
+}
+
+.people-actions .follow-btn.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.people-actions .follow-btn.btn-outline-danger {
+  background-color: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+}
+
+/* Animation layer */
+#animation-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2000; /* Höher als navbar (1000) */
+  pointer-events: none;
+  display: none;
+}
+
+#animation-layer.active {
+  display: block;
+}
+
+.fly-avatar {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+  z-index: 2001 !important; /* Über animation-layer */
+  display: block !important;
+  visibility: visible !important;
+}
+
+/* Connect overlay */
+#connect-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 2100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.connect-modal {
+  width: 90%;
+  max-width: 420px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+  padding: 16px;
 }

@@ -1,0 +1,20 @@
+# Deployment scripts with passwords
+pull-from-cloudron.sh
+push-to-cloudron.sh
+
+# SSH keys
+*.pem
+*.key
+id_rsa*
+cloudron_key*
+
+# Environment files
+.env
+.env.local
+
+# Server-side code (not published)
+app_data/
+
+# Security documentation (internal)
+SECURITY_AUDIT.md
+SECURITY_IMPLEMENTED.md

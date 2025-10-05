@@ -1,87 +1,110 @@
-# Mastowall 1.3
+# Mastowall 2
 
-Mastowall is a social wall application that displays posts from the [Mastodon](https://joinmastodon.org/) social network based on specified hashtags. It was written entirely by [ChatGPT4](https://openai.com/product/gpt-4), guided only by text prompts.
+Mastowall is a modern social wall application that displays posts from the [Mastodon](https://joinmastodon.org/) social network. It was written entirely by AI ([Claude Sonnet 4.5](https://www.anthropic.com/), ChatGPT 4, and ChatGPT 5), guided only by text prompts.
 
 <img width="1348" alt="image" src="https://github.com/rstockm/mastowall/assets/3195116/7060536e-4847-4e38-801e-3c0312b8b194">
 
+🔗 **[Try it live](https://rstockm.github.io/mastowall/)**
 
-Try it live: [Mastowall for the WWDC conference](https://rstockm.github.io/mastowall/?hashtags=wwdc,wwdc23,apple&server=https://mastodon.social))
+## Screenshots
 
-Use your own hashtags and server:
+*Coming soon - Screenshots will be added after deployment*
 
-<img width="1108" alt="image" src="https://github.com/rstockm/mastowall/assets/3195116/761237da-2166-46c5-8f31-46b9e913f736">
+## ✨ Features
 
-JSON config file:
+### 🎨 **Modern UI Design**
+- **Three View Modes:** Switch between Grid (Posts), People (Avatar Cards), and Settings
+- **Sticky Header:** Always accessible navigation with smooth animations
+- **Responsive Masonry Layout:** Beautiful grid that adapts to any screen size
+- **Clean & Modern:** Professional white design with subtle gradients and shadows
 
-<img width="567" alt="image" src="https://github.com/rstockm/mastowall/assets/3195116/27fe7f0b-c79e-4539-ac44-053ea5d3f101">
+### 📱 **Content Display**
+- **Real-Time Updates:** Posts refresh every 10 seconds automatically
+- **Rich Media Support:** Display images, videos, and multi-image carousals
+- **Lightbox View:** Click any media to see it in full-screen overlay
+- **Relative Timestamps:** Human-readable time display (e.g., "5 minutes ago")
+- **Avatar Cards:** View contributors grouped by author with post counts
+- **Smart Filtering:** Exclude replies or include them based on your needs
 
+### 🔧 **Configuration**
+- **URL Parameters:** Easy sharing with `?hashtags=tag1,tag2&server=mastodon.social`
+- **Zero State Screen:** Intuitive setup for first-time visitors
+- **Multi-Server Support:** Connect to any Mastodon instance
+- **Follow Feature:** Authenticated users can follow contributors directly
+- **Share Function:** Copy current configuration to clipboard
 
+### 🔐 **Privacy & Security**
+- **Client-Side First:** Most processing happens in your browser
+- **Secure Authentication:** OAuth 2.0 for Mastodon connections
+- **No Data Storage:** Your configuration stays in the URL, not on servers
 
-## Features
+## 🛠️ Technology Stack
 
-- **Display Posts:** The app fetches and displays posts from Mastodon based on the hashtags provided in the URL. If no hashtags are provided, it presents a form to enter up to three hashtags.
+- **[Bootstrap 5](https://getbootstrap.com/)** - Modern responsive framework
+- **[jQuery](https://jquery.com/)** - DOM manipulation and AJAX
+- **[Masonry](https://masonry.desandro.com/)** - Cascading grid layout
+- **[DOMPurify](https://github.com/cure53/DOMPurify)** - XSS protection for user-generated content
+- **[Bootstrap Icons](https://icons.getbootstrap.com/)** - Icon library
+- **Vanilla JavaScript** - Modern ES6+ for application logic
 
-- **Custom Mastodon Server:** Allows users to specify a Mastodon server URL from which to fetch posts.
+## 🚀 Quick Start
 
-- **Real-Time Updates:** Mastowall updates the posts every 10 seconds, ensuring that the content displayed is always current.
+### Basic Usage
 
-- **Relative Timestamps:** The timestamps of the posts are displayed relative to the current time, and are updated every minute to reflect the passing time.
+1. **Visit** [https://rstockm.github.io/mastowall/](https://rstockm.github.io/mastowall/)
+2. **Enter** up to 3 hashtags you want to follow
+3. **Select** a Mastodon server (default: mastodon.social)
+4. **Click** "Start" and watch the wall come alive!
 
-- **Masonry Grid Layout:** The posts are displayed in a masonry grid layout for a visually pleasing experience. 
+### URL Parameters
 
-- **Responsive Design:** The layout adjusts according to the screen size for better readability on different devices.
+Share specific configurations by using URL parameters:
 
-- **Navbar Hashtag Navigation:** Clicking on the hashtags in the navbar takes you to the form screen, allowing you to change the existing hashtags easily.
+```
+https://rstockm.github.io/mastowall/?hashtags=wwdc,apple&server=mastodon.social
+```
 
-- **Navbar Color Customization:** The color of the navigation bar can now be customized via the `config.json` file.
+**Parameters:**
+- `hashtags` - Comma-separated list of hashtags (no # symbol needed)
+- `server` - Mastodon instance URL (e.g., `mastodon.social`)
 
-- **Including Replies:** By default, replies are excluded from the wall. However, this behavior can be changed by setting includeReplies to true in the `config.json` file.
+### Connect to Mastodon (Optional)
 
-- **Media Overlay (Lightbox):** Clicking any image or video opens a large overlay above the wall. Close via the X button or ESC.
+To use the Follow feature:
 
-- **Multi-image Carousel:** Posts with multiple images render as a Bootstrap carousel (2s interval) with indicators, so viewers can see there is more than one image.
+1. Click the **Connect** button (🔗 icon) in the header
+2. Enter your own Mastodon instance URL
+3. Authorize the connection
+4. Follow contributors directly from the People view
 
-- **Stable Height & Letterboxing:** Carousel height locks to the first image. Subsequent slides use `object-fit: contain` with black background, ensuring no cropping and preventing masonry jumps.
+*Note: Authentication is handled securely via OAuth 2.0. Your credentials are never stored.*
 
-## Technology Stack
+## 🤝 Related Projects
 
-Mastowall is built using the following technologies:
+- **[Mastotags](https://rstockm.github.io/mastotags/)** - Discover trending hashtag combinations
 
-- **HTML, CSS, and JavaScript**: For structuring, styling, and functionality.
+## 🤖 AI-Powered Development
 
-- **[jQuery](https://jquery.com/)**: A fast, small, and feature-rich JavaScript library.
+Mastowall 2 demonstrates the potential of AI-assisted software development. The entire application—including all code, UI/UX design, and documentation—was created through conversations with multiple AI models: **Claude Sonnet 4.5** (Anthropic), **ChatGPT 4** (OpenAI), and **ChatGPT 5** (OpenAI).
 
-- **[Masonry](https://masonry.desandro.com/)**: A JavaScript grid layout library.
+The development process:
+- Human developer described desired features and requirements
+- AI models provided solutions, code implementations, and optimization suggestions
+- Iterative refinement through natural language conversation
+- **Every line of code** was written by AI
 
-- **[Bootstrap](https://getbootstrap.com/)**: A popular CSS framework for responsive, mobile-first front-end web development.
+This project serves as a proof of concept for modern AI-assisted development workflows.
 
-- **[DOMPurify](https://github.com/cure53/DOMPurify)**: Library for sanitizing HTML input, which should prevent the vast majority of malicious input from being rendered
+## 📝 License
 
-## Usage
+This project is open source and available under the MIT License.
 
-1. Load the application in a web browser. If no hashtags are specified in the URL, you will be presented with a form to enter up to three hashtags and a server URL.
+## 👤 Author
 
-2. After entering your hashtags and clicking 'Reload', the application will fetch and display posts from the specified Mastodon server that include those hashtags.
+**Ralf Stockmann** ([@rstockm](https://github.com/rstockm))
+- Prompting & Project Direction
+- AI Collaboration & Workflow Design
 
-3. The displayed posts will update every 10 seconds. The relative timestamps will also update every minute.
+---
 
-4. To change the hashtags, click on them in the navbar to go back to the form screen.
-
-## Sharing via URL
-
-Mastowall supports URL parameters to easily share specific hashtag configurations and the Mastodon server. Simply append the desired hashtags and the server URL to the URL following this format: `?hashtags=hashtag1,hashtag2,hashtag3&server=serverUrl`
-
-Enjoy using Mastowall!
-
-### Related project
-
-To discover strong hashtag combinations, try [Mastotags](https://rstockm.github.io/mastotags/).
-
-## AI-Guided Development: A Proof of Concept
-
-Mastowall may serve as an example of how artificial intelligence can aid and accelerate the software development process. The development of this version of the app was guided by OpenAI's GPT-4, a large language model.
-
-In this process, the human developer posed problems, asked questions, and described the desired features and functionalities of the application. GPT-4 then provided solutions, answered queries, generated code snippets, and suggested optimal ways to implement these features.
-
-Every single line of code was written by ChatGPT4.
-Including this README.
+**Powered by AI** 🤖 | **Built for Mastodon** 🐘 | **Made with ❤️**
