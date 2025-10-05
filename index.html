@@ -57,7 +57,12 @@
                         </div>
                         <div class="form-group">
                             <label for="serverUrl">Server:</label>
-                            <input type="text" class="form-control" id="serverUrl" placeholder="Enter server URL" value="https://mastodon.social">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">https://</span>
+                                </div>
+                                <input type="text" class="form-control" id="serverUrl" placeholder="mastodon.social" value="mastodon.social">
+                            </div>
                         </div>
                       
                         <button type="submit" class="btn btn-primary btn-lg mt-3">Reload</button>

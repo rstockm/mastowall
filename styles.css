@@ -139,6 +139,113 @@ body {
   margin-right: 20px !important;
 }
 
+/* Zero State Modern Card Styles */
+.zero-state-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  padding: 24px 48px; /* 50% weniger oben/unten (24px statt 48px) */
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.zero-state-header {
+  margin-bottom: 16px; /* 50% weniger (16px statt 32px) */
+}
+
+.zero-state-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 12px;
+}
+
+.zero-state-subtitle {
+  font-size: 1.1rem;
+  color: #7f8c8d;
+  margin-bottom: 0;
+}
+
+.zero-state-form {
+  text-align: left;
+}
+
+.zero-state-form .form-group {
+  margin-bottom: 20px;
+}
+
+.zero-state-form label {
+  font-weight: 500;
+  color: #34495e;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.zero-state-form .form-control {
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+  padding: 12px 16px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.zero-state-form .form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  outline: none;
+}
+
+.zero-state-form .btn-primary {
+  width: 100%;
+  border-radius: 8px;
+  padding: 14px 32px;
+  font-weight: 500;
+  font-size: 1.05rem;
+  background-color: #007bff;
+  border: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.zero-state-form .btn-primary:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+.zero-state-form .btn-primary:active {
+  transform: translateY(0);
+}
+
+.zero-state-tip {
+  font-size: 0.9rem;
+  color: #95a5a6;
+  margin-top: 16px;
+}
+
+.zero-state-tip a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.zero-state-tip a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .zero-state-card {
+    padding: 32px 24px;
+  }
+  
+  .zero-state-title {
+    font-size: 1.5rem;
+  }
+  
+  .zero-state-subtitle {
+    font-size: 1rem;
+  }
+}
+
 @media (max-width: 1000px) {
   .col-sm-3 {
     flex: 0 0 50%;
@@ -598,7 +705,8 @@ body {
 }
 
 /* Connect overlay */
-#connect-overlay {
+#connect-overlay,
+#disconnect-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.6);
@@ -610,42 +718,123 @@ body {
 
 .connect-modal {
   width: 90%;
-  max-width: 420px;
+  max-width: 480px;
   background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 12px 32px rgba(0,0,0,0.35);
-  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  padding: 32px;
 }
 
-/* Settings container - card style */
-#settingsForm .card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  padding: 2rem;
-  max-width: 600px;
-  margin: 2rem auto;
+.connect-modal-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 24px;
 }
 
-#settingsForm .form-group label {
+.connect-modal-label {
   font-weight: 500;
-  color: #333;
-  margin-bottom: 0.5rem;
+  color: #34495e;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  display: block;
 }
 
-#settingsForm .form-control {
-  border-radius: 6px;
-  border: 1px solid #ddd;
-  padding: 0.75rem;
+.connect-modal-text {
+  color: #7f8c8d;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 24px;
 }
 
-#settingsForm .form-control:focus {
+.connect-input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.connect-input-wrapper:focus-within {
   border-color: #007bff;
-  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
 }
 
-#settingsForm .btn-primary {
-  padding: 0.75rem 2rem;
+.connect-input-prefix {
+  padding: 12px 0 12px 16px;
+  background: #f8f9fa;
+  color: #6c757d;
+  font-size: 1rem;
   font-weight: 500;
-  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.connect-input {
+  border: none !important;
+  padding: 12px 16px 12px 8px !important;
+  font-size: 1rem;
+  flex: 1;
+  box-shadow: none !important;
+}
+
+.connect-input:focus {
+  outline: none;
+}
+
+.connect-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.connect-modal-actions .btn {
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-weight: 500;
+}
+
+/* Modern Toast Notification */
+.notification-toast {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100px);
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  padding: 16px 24px;
+  z-index: 3000;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.notification-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.notification-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.notification-content i {
+  font-size: 1.2rem;
+}
+
+.notification-success .notification-content i {
+  color: #28a745;
+}
+
+.notification-error .notification-content i {
+  color: #dc3545;
+}
+
+.notification-content span {
+  font-size: 1rem;
+  color: #2c3e50;
+  font-weight: 500;
 }

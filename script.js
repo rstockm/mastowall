@@ -265,7 +265,9 @@ const handleHashtagDisplayClick = function(serverUrl) {
         $(`#hashtag${i+1}`).val(currentHashtags[i]);
     }
 
-    $('#serverUrl').val(serverUrl);
+    // Remove https:// prefix for display in input field
+    const displayValue = serverUrl.replace(/^https:\/\//, '');
+    $('#serverUrl').val(displayValue);
 };
 
 // handleHashtagFormSubmit handles the submission of the hashtag form
@@ -282,7 +284,12 @@ const handleHashtagFormSubmit = function(e, hashtagsArray) {
         return hashtag !== '' && /^[\w]+$/.test(hashtag);
     });
 
-    let serverUrl = $('#serverUrl').val();
+    let serverUrl = $('#serverUrl').val().trim();
+    
+    // Add https:// prefix if not present
+    if (!serverUrl.startsWith('https://')) {
+        serverUrl = 'https://' + serverUrl;
+    }
 
     if (!/^https:\/\/[\w.\-]+\/?$/.test(serverUrl)) {
         alert('Invalid server URL.');
