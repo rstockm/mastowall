@@ -616,3 +616,36 @@ body {
   box-shadow: 0 12px 32px rgba(0,0,0,0.35);
   padding: 16px;
 }
+
+/* Settings container - card style */
+#settingsForm .card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 2rem;
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+#settingsForm .form-group label {
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+#settingsForm .form-control {
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+}
+
+#settingsForm .form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+#settingsForm .btn-primary {
+  padding: 0.75rem 2rem;
+  font-weight: 500;
+  border-radius: 6px;
+}
