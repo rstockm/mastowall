@@ -47,20 +47,29 @@
                       </div>
                       <form id="hashtag-form" class="zero-state-form">
                         <div class="form-group">
-                            <label for="hashtag1">Hashtag 1:</label>
-                            <input type="text" class="form-control" id="hashtag1" placeholder="Enter a hashtag">
+                            <div class="connect-input-wrapper">
+                                <span class="connect-input-prefix">#</span>
+                                <input type="text" class="form-control connect-input" id="hashtag1" placeholder="Hashtag 1" aria-label="Hashtag 1">
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="hashtag2">Hashtag 2:</label>
-                            <input type="text" class="form-control" id="hashtag2" placeholder="Enter a hashtag">
+                            <div class="connect-input-wrapper">
+                                <span class="connect-input-prefix">#</span>
+                                <input type="text" class="form-control connect-input" id="hashtag2" placeholder="Hashtag 2" aria-label="Hashtag 2">
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="hashtag3">Hashtag 3:</label>
-                            <input type="text" class="form-control" id="hashtag3" placeholder="Enter a hashtag">
+                            <div class="connect-input-wrapper">
+                                <span class="connect-input-prefix">#</span>
+                                <input type="text" class="form-control connect-input" id="hashtag3" placeholder="Hashtag 3" aria-label="Hashtag 3">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="serverUrl">Server:</label>
-                            <input type="text" class="form-control" id="serverUrl" placeholder="Enter server URL" value="https://mastodon.social">
+                            <div class="connect-input-wrapper">
+                                <span class="connect-input-prefix">https://</span>
+                                <input type="text" class="form-control connect-input" id="serverUrl" placeholder="mastodon.social" value="mastodon.social">
+                            </div>
                         </div>
                       
                         <button type="submit" class="btn btn-primary btn-lg mt-3">Reload</button>

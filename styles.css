@@ -769,7 +769,7 @@ body {
 }
 
 .connect-input-prefix {
-  padding: 12px 0 12px 16px;
+  padding: 10px 0 10px 14px;
   background: #f8f9fa;
   color: #6c757d;
   font-size: 1rem;
@@ -779,7 +779,7 @@ body {
 
 .connect-input {
   border: none !important;
-  padding: 12px 16px 12px 8px !important;
+  padding: 10px 14px 10px 8px !important;
   font-size: 1rem;
   flex: 1;
   box-shadow: none !important;
@@ -789,11 +789,12 @@ body {
   outline: none;
 }
 
+.zero-state-form .form-group { margin-bottom: 10px; }
 .connect-modal-actions {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
-  margin-top: 24px;
+  margin-top: 18px;
 }
 
 .connect-modal-actions .btn {

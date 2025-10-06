@@ -278,7 +278,12 @@ const handleHashtagFormSubmit = function(e, hashtagsArray) {
         $('#hashtag1').val(),
         $('#hashtag2').val(),
         $('#hashtag3').val()
-    ];
+    ]
+    .map(function(h){
+        h = (h || '').trim();
+        if (h.startsWith('#')) h = h.slice(1); // accept and ignore leading '#'
+        return h;
+    });
 
     hashtags = hashtags.filter(function(hashtag) {
         return hashtag !== '' && /^[\w]+$/.test(hashtag);
@@ -286,8 +291,8 @@ const handleHashtagFormSubmit = function(e, hashtagsArray) {
 
     let serverUrl = $('#serverUrl').val().trim();
     
-    // Add https:// prefix if not present
-    if (!serverUrl.startsWith('https://')) {
+    // Always ensure https:// prefix; input holds only host
+    if (!serverUrl.startsWith('http://') && !serverUrl.startsWith('https://')) {
         serverUrl = 'https://' + serverUrl;
     }
 
