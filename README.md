@@ -2,7 +2,11 @@
 
 Mastowall is a modern social wall application that displays posts from the [Mastodon](https://joinmastodon.org/) social network. It was written entirely by AI ([Claude Sonnet 4.5](https://www.anthropic.com/), ChatGPT 4, and ChatGPT 5), guided only by text prompts.
 
-<img width="2662" height="1604" alt="image" src="https://github.com/user-attachments/assets/7c092c9a-cccc-43df-969e-090da2e67ae6" />
+<img width="2237" height="1522" alt="image" src="https://github.com/user-attachments/assets/99236190-66f4-435f-87b6-a72bb33fe88d" />
+
+<img width="2223" height="1520" alt="image" src="https://github.com/user-attachments/assets/79dc92d3-eb47-4ede-8191-aa273401ec78" />
+
+
 
 🔗 **[Try it live](https://rstockm.github.io/mastowall/)**
 
