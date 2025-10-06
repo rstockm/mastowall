@@ -225,7 +225,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const hashtags = getUrlParameter('hashtags');
     if (hashtags) {
         const firstHashtag = hashtags.split(',')[0];
-        document.title = `#${firstHashtag} - Mastowall 1.3`;
+        document.title = `#${firstHashtag} - Mastowall 2`;
     }
 });
 
@@ -402,7 +402,7 @@ const renderPeopleList = function() {
                 <div class="people-info">
                     <div class="people-name-wrapper">
                         <span class="people-name">${DOMPurify.sanitize(author.displayName)}</span>
-                        ${profileUrl ? `<a href="${profileUrl}" target="_blank" rel="noopener" class="people-profile-link" title="Profil auf ${author.acct} ansehen"><i class="fas fa-external-link-alt"></i></a>` : ''}
+                        ${profileUrl ? `<a href="${profileUrl}" target="_blank" rel="noopener" class="people-profile-link" title="View profile on ${author.acct}"><i class="fas fa-external-link-alt"></i></a>` : ''}
                     </div>
                     ${sanitizedBio ? `<div class="people-bio">${sanitizedBio}</div>` : ''}
                     ${postsHTML}
@@ -755,7 +755,7 @@ $(document).ready(async function() {
 
     // If we just returned from OAuth, optimistically show connected
     if (getUrlParameter('mw_auth') === '1') {
-        $('#connect-status-icon').removeClass('fa-unlink').addClass('fa-link connected').attr('title', 'Verbunden');
+        $('#connect-status-icon').removeClass('fa-unlink').addClass('fa-link connected').attr('title', 'Connected');
         // Clean URL (remove mw_auth)
         try {
             const url = new URL(window.location.href);
@@ -780,7 +780,7 @@ $(document).ready(async function() {
                 window.history.replaceState({}, document.title, hrefNoHash);
             }
         } catch (err) {
-            console.warn('Konnte Token-Fragment nicht parsen:', err);
+            console.warn('Could not parse token fragment:', err);
         }
     })();
 
@@ -932,11 +932,11 @@ $(document).ready(async function() {
         e.stopPropagation(); // Prevent triggering the people-item click
         const $btn = $(this);
         const acct = ($btn.attr('data-acct') || '').trim();
-        if (!acct) { alert('Kein Konto-Handle verfügbar.'); return; }
+        if (!acct) { alert('No account handle available.'); return; }
 
         const token = sessionStorage.getItem('mw_token');
         const home  = sessionStorage.getItem('mw_home');
-        if (!token || !home) { alert('Bitte zuerst verbinden.'); return; }
+        if (!token || !home) { alert('Please connect first.'); return; }
 
         $btn.prop('disabled', true).removeClass('btn-outline-success').addClass('btn-secondary').text('…');
         try {
@@ -1034,12 +1034,12 @@ $(document).ready(async function() {
             $('#connect-status-icon')
               .removeClass('fa-unlink')
               .addClass('fa-link connected')
-              .attr('title', 'Verbunden');
+              .attr('title', 'Connected');
         } else {
             $('#connect-status-icon')
               .removeClass('fa-link connected')
               .addClass('fa-unlink')
-              .attr('title', 'Nicht verbunden');
+              .attr('title', 'Not connected');
         }
     }
     refreshAuthIndicator();

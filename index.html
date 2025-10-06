@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Mastowall 1.3</title>
+    <title>Mastowall 2</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
@@ -22,15 +22,18 @@
                 <button id="toggle-people" class="btn btn-sm btn-outline-primary" title="People">
                     <i class="fas fa-users"></i>
                 </button>
-                <button id="share-btn" class="btn btn-sm btn-outline-primary" title="URL teilen">
+                <button id="share-btn" class="btn btn-sm btn-outline-primary" title="Share URL">
                     <i class="fas fa-external-link-alt"></i>
                 </button>
-                <button id="settings-btn" class="btn btn-sm btn-outline-primary" title="Einstellungen">
+                <button id="settings-btn" class="btn btn-sm btn-outline-primary" title="Settings">
                     <i class="fas fa-cog"></i>
                 </button>
             </div>
-            <i id="connect-status-icon" class="fas fa-unlink" title="Nicht verbunden"></i>
+            <i id="connect-status-icon" class="fas fa-unlink" title="Not connected"></i>
         </div>
+        <button id="mobile-burger" class="mobile-burger d-none" aria-label="Menu">
+            <i class="fas fa-bars"></i>
+        </button>
     </nav>
 
     <div id="zero-state" class="d-none">
@@ -124,6 +127,30 @@
             <div class="connect-modal-actions">
                 <button type="button" id="disconnect-cancel" class="btn btn-light">Cancel</button>
                 <button type="button" id="disconnect-confirm" class="btn btn-danger">Disconnect</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="mobile-menu-overlay d-none">
+        <div class="mobile-menu-content">
+            <button id="mobile-menu-close" class="mobile-menu-close" aria-label="Close">×</button>
+            <div class="mobile-menu-items">
+                <button class="mobile-menu-item" data-action="posts">
+                    <i class="fas fa-th"></i><span>Posts</span>
+                </button>
+                <button class="mobile-menu-item" data-action="people">
+                    <i class="fas fa-users"></i><span>People</span>
+                </button>
+                <button class="mobile-menu-item" data-action="share">
+                    <i class="fas fa-external-link-alt"></i><span>Share</span>
+                </button>
+                <button class="mobile-menu-item" data-action="settings">
+                    <i class="fas fa-cog"></i><span>Settings</span>
+                </button>
+                <button class="mobile-menu-item" id="mobile-connect" data-action="connect">
+                    <i class="fas fa-unlink"></i><span>Connect</span>
+                </button>
             </div>
         </div>
     </div>

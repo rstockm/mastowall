@@ -865,6 +865,10 @@ body {
   .desktop-nav {
     display: none !important;
   }
+  /* Hide desktop icons group on mobile */
+  #view-toggle {
+    display: none !important;
+  }
   
   .mobile-burger.d-none {
     display: flex !important;
