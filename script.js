@@ -941,7 +941,16 @@ $(document).ready(async function() {
 
         const token = sessionStorage.getItem('mw_token');
         const home  = sessionStorage.getItem('mw_home');
-        if (!token || !home) { alert('Please connect first.'); return; }
+        if (!token || !home) {
+            // Open connect overlay instead of alert
+            const existing = sessionStorage.getItem('mw_home_instance') || serverUrl || defaultServerUrl || 'https://mastodon.social';
+            const displayValue = existing.replace(/^https:\/\//, '');
+            $('#home-instance-input').val(displayValue);
+            $('#connect-overlay').removeClass('d-none');
+            const inputEl = $('#home-instance-input')[0];
+            if (inputEl) inputEl.focus();
+            return;
+        }
 
         $btn.prop('disabled', true).removeClass('btn-outline-success').addClass('btn-secondary').text('…');
         try {
