@@ -307,6 +307,22 @@ let isFirstLoad = true;
 // Current view state: 'posts', 'people', or 'settings'
 let currentView = 'posts';
 
+// Keep the current view encoded in the URL for shareability
+const updateUrlForView = function(view) {
+    try {
+        const url = new URL(window.location.href);
+        if (view === 'people') {
+            url.searchParams.set('view', 'people');
+        } else {
+            // Default (posts) or settings: don't encode in URL
+            url.searchParams.delete('view');
+        }
+        history.replaceState({}, '', url.toString());
+    } catch (e) {
+        // no-op if URL API not available
+    }
+};
+
 // updateButtonStates updates the visual state of all navigation buttons
 const updateButtonStates = function() {
     // Reset all buttons to outline style
@@ -706,6 +722,15 @@ $(document).ready(async function() {
         updateButtonStates(); // Initialize button states
         const allPosts = await Promise.all(hashtagsArray.map(hashtag => fetchPosts(serverUrl, hashtag)));
         updateWall(allPosts.flat());
+        // Apply initial view from URL (supports ?view=people); default is posts
+        try {
+            const initialView = new URL(window.location.href).searchParams.get('view');
+            if (initialView === 'people') {
+                $('#toggle-people').click();
+            } else {
+                updateUrlForView('posts');
+            }
+        } catch (e) {}
         setInterval(async function() {
             const newPosts = await Promise.all(hashtagsArray.map(hashtag => fetchPosts(serverUrl, hashtag)));
             updateWall(newPosts.flat());
@@ -812,6 +837,7 @@ $(document).ready(async function() {
         $('#people-container').addClass('d-none');
         $('#zero-state').addClass('d-none');
         $('#app-content').removeClass('d-none');
+        updateUrlForView('posts');
     });
 
     $('#toggle-people').on('click', function() {
@@ -821,6 +847,7 @@ $(document).ready(async function() {
         $('#zero-state').addClass('d-none');
         // DON'T hide app-content yet - measure avatars first!
         animatePostsToPeople();
+        updateUrlForView('people');
     });
 
     $('#share-btn').on('click', async function() {
@@ -880,7 +907,17 @@ $(document).ready(async function() {
         $('#people-container').addClass('d-none');
         $('#app-content').addClass('d-none');
         handleHashtagDisplayClick(serverUrl);
+        updateUrlForView('settings');
     });
+
+    // After handlers are bound: apply initial view from URL
+    try {
+        const initialViewBound = new URL(window.location.href).searchParams.get('view');
+        if (initialViewBound === 'people') {
+            // Defer to ensure layout after initial DOM insertions
+            setTimeout(() => { $('#toggle-people').trigger('click'); }, 50);
+        }
+    } catch (e) {}
 
     // Click on people-item to expand/collapse bio
     $('#people-container').on('click', '.people-item', function(e) {
@@ -1007,5 +1044,74 @@ $(document).ready(async function() {
     }
     refreshAuthIndicator();
     setInterval(refreshAuthIndicator, 5000);
+
+    // Mobile Burger Menu
+    $('#mobile-burger').on('click', function() {
+        $('#mobile-menu').removeClass('d-none');
+        updateMobileMenuState();
+    });
+
+    $('#mobile-menu-close, #mobile-menu').on('click', function(e) {
+        if (e.target === this) {
+            $('#mobile-menu').addClass('d-none');
+        }
+    });
+
+    // Mobile menu item clicks
+    $('.mobile-menu-item').on('click', function() {
+        const action = $(this).data('action');
+        
+        switch(action) {
+            case 'posts':
+                $('#toggle-posts').click();
+                break;
+            case 'people':
+                $('#toggle-people').click();
+                break;
+            case 'share':
+                $('#share-btn').click();
+                break;
+            case 'settings':
+                $('#settings-btn').click();
+                break;
+            case 'connect':
+                $('#connect-status-icon').click();
+                break;
+        }
+        
+        $('#mobile-menu').addClass('d-none');
+        updateMobileMenuState();
+    });
+
+    // Function to update mobile menu active states
+    function updateMobileMenuState() {
+        $('.mobile-menu-item').removeClass('active');
+        
+        if ($('#app-content').hasClass('d-none') === false) {
+            $('.mobile-menu-item[data-action="posts"]').addClass('active');
+        } else if ($('#people-container').hasClass('d-none') === false) {
+            $('.mobile-menu-item[data-action="people"]').addClass('active');
+        } else if ($('#zero-state').hasClass('d-none') === false) {
+            $('.mobile-menu-item[data-action="settings"]').addClass('active');
+        }
+        
+        // Update connect status
+        const isConnected = sessionStorage.getItem('mw_token') !== null;
+        const $mobileConnect = $('#mobile-connect');
+        if (isConnected) {
+            $mobileConnect.find('i').removeClass('fa-unlink').addClass('fa-link');
+            $mobileConnect.find('span').text('Disconnect');
+        } else {
+            $mobileConnect.find('i').removeClass('fa-link').addClass('fa-unlink');
+            $mobileConnect.find('span').text('Connect');
+        }
+    }
+
+    // Update mobile menu state when view changes
+    const originalUpdateButtonStates = updateButtonStates;
+    updateButtonStates = function() {
+        originalUpdateButtonStates();
+        updateMobileMenuState();
+    };
 });
 /* Cache bust: 1759264298 */
