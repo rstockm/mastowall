@@ -16,7 +16,8 @@ Try it live: [[Mastowall for the Open Source Summit]](https://rstockm.github.io/
 
 Use your own hashtags and server via the settings:
 
-<img width="2227" height="1157" alt="image" src="https://github.com/user-attachments/assets/f55f56c5-049c-458f-b840-c45cb7caa212" />
+<img width="2704" height="1348" alt="image" src="https://github.com/user-attachments/assets/c314ea99-a85a-4298-8efe-ac257f69ccc8" />
+
 
 
 ## ✨ Features
