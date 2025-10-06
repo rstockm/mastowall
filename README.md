@@ -4,6 +4,8 @@ Mastowall is a modern social wall application that displays posts from the [Mast
 
 <img width="2237" height="1522" alt="image" src="https://github.com/user-attachments/assets/99236190-66f4-435f-87b6-a72bb33fe88d" />
 
+The new People screen - who is writing on the wall?
+
 <img width="2223" height="1520" alt="image" src="https://github.com/user-attachments/assets/79dc92d3-eb47-4ede-8191-aa273401ec78" />
 
 
@@ -14,7 +16,8 @@ Try it live: [[Mastowall for the Open Source Summit]](https://rstockm.github.io/
 
 Use your own hashtags and server via the settings:
 
-<img width="2210" height="1290" alt="image" src="https://github.com/user-attachments/assets/2c50ee2d-1571-4d25-a5cf-2ab98f062850" />
+<img width="2227" height="1157" alt="image" src="https://github.com/user-attachments/assets/f55f56c5-049c-458f-b840-c45cb7caa212" />
+
 
 ## ✨ Features
 
