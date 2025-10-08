@@ -1,6 +1,7 @@
 {
   "navbarBrandText": "Mastowall 2 - written by AI - Prompting: Ralf Stockmann (rstockm)",
   "defaultServerUrl": "https://mastodon.social",
-  "navbarColor": "#333355",
-  "includeReplies": true
+  "navbarColor": "#ffffff",
+  "includeReplies": true,
+  "hashtags": ""
 }

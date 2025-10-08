@@ -48,9 +48,15 @@ const fetchConfig = async function() {
         } else {
             $('#navbar-brand').text(text);
         }
-        $('.navbar').css('background-color', config.navbarColor);
+        // Ensure JSON color is not overridden by CSS !important
+        const navbarEl = document.querySelector('.navbar');
+        if (navbarEl && navbarEl.style && typeof navbarEl.style.setProperty === 'function') {
+            navbarEl.style.setProperty('background-color', config.navbarColor, 'important');
+        } else {
+            $('.navbar').css('background-color', config.navbarColor);
+        }
         includeReplies = config.includeReplies;
-        return config.defaultServerUrl;
+        return config;
     } catch (error) {
         console.error("Error loading config.json:", error);
     }
@@ -693,7 +699,8 @@ async function prefetchFollowStatuses() {
 
 // On document ready, the script configures Masonry, handles events, fetches and displays posts
 $(document).ready(async function() {
-    const defaultServerUrl = await fetchConfig();
+    const config = await fetchConfig();
+    const defaultServerUrl = (config && config.defaultServerUrl) || 'https://mastodon.social';
     $('.masonry-grid').masonry({
         itemSelector: '.col-sm-3',
         columnWidth: '.col-sm-3',
@@ -712,8 +719,15 @@ $(document).ready(async function() {
         $('.masonry-grid').masonry('layout');
     }, 10000);
 
-    const hashtags = getUrlParameter('hashtags');
-    const hashtagsArray = hashtags ? hashtags.split(',') : [];
+    const hashtagsParam = getUrlParameter('hashtags');
+    let hashtagsArray = hashtagsParam ? hashtagsParam.split(',') : [];
+    // Only use config presets if no URL parameters exist at all (first load)
+    if (hashtagsArray.length === 0 && !hashtagsParam) {
+        const preset = (config && typeof config.hashtags === 'string') ? config.hashtags.trim() : '';
+        if (preset) {
+            hashtagsArray = preset.split(',');
+        }
+    }
     const serverUrl = getUrlParameter('server') || defaultServerUrl;
 
     $('#hashtag-display').on('click', function() {
@@ -725,6 +739,16 @@ $(document).ready(async function() {
     if (hashtagsArray.length > 0 && hashtagsArray[0] !== '') {
         $('#view-toggle').removeClass('d-none');
         updateButtonStates(); // Initialize button states
+        // Ensure presets also appear in the URL for Settings and shareability
+        try {
+            const url = new URL(window.location.href);
+            url.searchParams.set('hashtags', hashtagsArray.join(','));
+            if (serverUrl) url.searchParams.set('server', serverUrl);
+            history.replaceState({}, '', url.toString());
+        } catch (e) {}
+        // Make sure zero-state is hidden when loading with presets
+        $('#zero-state').addClass('d-none');
+        $('#app-content').removeClass('d-none');
         const allPosts = await Promise.all(hashtagsArray.map(hashtag => fetchPosts(serverUrl, hashtag)));
         updateWall(allPosts.flat());
         // Apply initial view from URL (supports ?view=people); default is posts
@@ -741,11 +765,27 @@ $(document).ready(async function() {
             updateWall(newPosts.flat());
         }, 10000);
     } else {
-        $('#zero-state').removeClass('d-none');
-        $('#app-content').addClass('d-none');
-        currentView = 'settings'; // Set to settings when in zero state
-        $('#view-toggle').removeClass('d-none');
-        updateButtonStates(); // Initialize button states for settings view
+        if (hashtagsArray.length > 0) {
+            // We had presets from config: render immediately
+            $('#view-toggle').removeClass('d-none');
+            updateButtonStates();
+            // Ensure presets also appear in the URL for Settings and shareability
+            try {
+                const url = new URL(window.location.href);
+                url.searchParams.set('hashtags', hashtagsArray.join(','));
+                if (serverUrl) url.searchParams.set('server', serverUrl);
+                history.replaceState({}, '', url.toString());
+            } catch (e) {}
+            const allPosts = await Promise.all(hashtagsArray.map(hashtag => fetchPosts(serverUrl, hashtag)));
+            updateWall(allPosts.flat());
+            updateUrlForView('posts');
+        } else {
+            // Show zero state and prefill inputs from current serverUrl/defaultServerUrl
+            handleHashtagDisplayClick(serverUrl);
+            currentView = 'settings'; // Set to settings when in zero state
+            $('#view-toggle').removeClass('d-none');
+            updateButtonStates(); // Initialize button states for settings view
+        }
     }
 
     updateHashtagsOnPage(hashtagsArray);
