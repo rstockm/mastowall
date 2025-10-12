@@ -72,6 +72,32 @@ const fetchPosts = async function(serverUrl, hashtag) {
     }
 };
 
+// fetchPersonPosts fetches posts from a specific Mastodon user
+const fetchPersonPosts = async function(serverUrl, personHandle) {
+    try {
+        // Remove @ prefix if present
+        const handle = personHandle.startsWith('@') ? personHandle.slice(1) : personHandle;
+        
+        // Search for the account to get the account ID
+        const searchResults = await $.get(`${serverUrl}/api/v2/search?q=${encodeURIComponent(handle)}&type=accounts&limit=1`);
+        
+        if (!searchResults.accounts || searchResults.accounts.length === 0) {
+            console.warn(`Person not found: ${handle}`);
+            return [];
+        }
+        
+        const account = searchResults.accounts[0];
+        console.log(`Found account: ${account.acct} (ID: ${account.id})`);
+        
+        // Fetch the account's statuses
+        const posts = await $.get(`${serverUrl}/api/v1/accounts/${account.id}/statuses?limit=40`);
+        return posts;
+    } catch (error) {
+        console.error(`Error loading posts for person ${personHandle}:`, error);
+        return [];
+    }
+};
+
 // updateTimesOnPage updates the time information displayed for each post
 const updateTimesOnPage = function() {
     $('.card-text a').each(function() {
@@ -266,9 +292,14 @@ const handleHashtagDisplayClick = function(serverUrl) {
     $('#zero-state').removeClass('d-none');
 
     const currentHashtags = getUrlParameter('hashtags').split(',');
+    const currentPersons = getUrlParameter('persons').split(',');
 
     for (let i = 0; i < currentHashtags.length; i++) {
         $(`#hashtag${i+1}`).val(currentHashtags[i]);
+    }
+
+    for (let i = 0; i < currentPersons.length; i++) {
+        $(`#person${i+1}`).val(currentPersons[i]);
     }
 
     // Remove https:// prefix for display in input field
@@ -295,6 +326,21 @@ const handleHashtagFormSubmit = function(e, hashtagsArray) {
         return hashtag !== '' && /^[\w]+$/.test(hashtag);
     });
 
+    let persons = [
+        $('#person1').val(),
+        $('#person2').val(),
+        $('#person3').val()
+    ]
+    .map(function(p){
+        p = (p || '').trim();
+        if (p.startsWith('@')) p = p.slice(1); // accept and ignore leading '@'
+        return p;
+    });
+
+    persons = persons.filter(function(person) {
+        return person !== '' && /^[\w.-]+@[\w.-]+$/.test(person);
+    });
+
     let serverUrl = $('#serverUrl').val().trim();
     
     // Always ensure https:// prefix; input holds only host
@@ -307,7 +353,17 @@ const handleHashtagFormSubmit = function(e, hashtagsArray) {
         return;
     }
 
-    const newUrl = window.location.origin + window.location.pathname + `?hashtags=${hashtags.join(',')}&server=${serverUrl}`;
+    // Build URL with both hashtags and persons parameters
+    let params = [];
+    if (hashtags.length > 0) {
+        params.push(`hashtags=${hashtags.join(',')}`);
+    }
+    if (persons.length > 0) {
+        params.push(`persons=${persons.join(',')}`);
+    }
+    params.push(`server=${serverUrl}`);
+
+    const newUrl = window.location.origin + window.location.pathname + `?${params.join('&')}`;
 
     window.location.href = newUrl;
 };
@@ -721,6 +777,10 @@ $(document).ready(async function() {
 
     const hashtagsParam = getUrlParameter('hashtags');
     let hashtagsArray = hashtagsParam ? hashtagsParam.split(',') : [];
+    
+    const personsParam = getUrlParameter('persons');
+    let personsArray = personsParam ? personsParam.split(',') : [];
+    
     // Only use config presets if no URL parameters exist at all (first load)
     if (hashtagsArray.length === 0 && !hashtagsParam) {
         const preset = (config && typeof config.hashtags === 'string') ? config.hashtags.trim() : '';
@@ -736,20 +796,30 @@ $(document).ready(async function() {
 
     // Settings button handler is now in the view toggle handlers section
 
-    if (hashtagsArray.length > 0 && hashtagsArray[0] !== '') {
+    if (hashtagsArray.length > 0 && hashtagsArray[0] !== '' || personsArray.length > 0) {
         $('#view-toggle').removeClass('d-none');
         updateButtonStates(); // Initialize button states
         // Ensure presets also appear in the URL for Settings and shareability
         try {
             const url = new URL(window.location.href);
-            url.searchParams.set('hashtags', hashtagsArray.join(','));
+            if (hashtagsArray.length > 0) {
+                url.searchParams.set('hashtags', hashtagsArray.join(','));
+            }
+            if (personsArray.length > 0) {
+                url.searchParams.set('persons', personsArray.join(','));
+            }
             if (serverUrl) url.searchParams.set('server', serverUrl);
             history.replaceState({}, '', url.toString());
         } catch (e) {}
         // Make sure zero-state is hidden when loading with presets
         $('#zero-state').addClass('d-none');
         $('#app-content').removeClass('d-none');
-        const allPosts = await Promise.all(hashtagsArray.map(hashtag => fetchPosts(serverUrl, hashtag)));
+        
+        // Fetch posts from both hashtags and persons
+        const hashtagPromises = hashtagsArray.map(hashtag => fetchPosts(serverUrl, hashtag));
+        const personPromises = personsArray.map(person => fetchPersonPosts(serverUrl, person));
+        const allPosts = await Promise.all([...hashtagPromises, ...personPromises]);
+        
         updateWall(allPosts.flat());
         // Apply initial view from URL (supports ?view=people); default is posts
         try {
@@ -761,8 +831,9 @@ $(document).ready(async function() {
             }
         } catch (e) {}
         setInterval(async function() {
-            const newPosts = await Promise.all(hashtagsArray.map(hashtag => fetchPosts(serverUrl, hashtag)));
-            updateWall(newPosts.flat());
+            const newHashtagPosts = await Promise.all(hashtagsArray.map(hashtag => fetchPosts(serverUrl, hashtag)));
+            const newPersonPosts = await Promise.all(personsArray.map(person => fetchPersonPosts(serverUrl, person)));
+            updateWall([...newHashtagPosts, ...newPersonPosts].flat());
         }, 10000);
     } else {
         if (hashtagsArray.length > 0) {
