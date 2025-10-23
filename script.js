@@ -292,7 +292,7 @@ const handleHashtagFormSubmit = function(e, hashtagsArray) {
     });
 
     hashtags = hashtags.filter(function(hashtag) {
-        return hashtag !== '' && /^[\w]+$/.test(hashtag);
+        return hashtag !== '' && /^[\p{L}\p{N}_]+$/u.test(hashtag);
     });
 
     let serverUrl = $('#serverUrl').val().trim();
