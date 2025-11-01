@@ -335,7 +335,7 @@ const updateUrlForView = function(view) {
 };
 
 // updateButtonStates updates the visual state of all navigation buttons
-const updateButtonStates = function() {
+let updateButtonStates = function() {
     // Reset all buttons to outline style
     $('#toggle-posts, #toggle-people, #settings-btn').removeClass('btn-primary').addClass('btn-outline-primary');
     
