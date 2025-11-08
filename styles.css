@@ -178,8 +178,12 @@ body {
   text-align: left;
 }
 
-.zero-state-form .form-group {
-  margin-bottom: 20px;
+.zero-state-form .form-section-label {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 1.05rem;
+  display: block;
+  margin-bottom: 12px;
 }
 
 .zero-state-form label {
